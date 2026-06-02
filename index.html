@@ -173,14 +173,13 @@
   .arrows button:hover{background:var(--fucsia);color:#0a0a0a;border-color:var(--fucsia)}
 
   /* POESÍA */
-  .poemarios{display:flex;gap:18px;overflow-x:auto;padding:26px 0 12px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--lima) #1a1a1a}
-  .poemarios::-webkit-scrollbar{height:8px}.poemarios::-webkit-scrollbar-thumb{background:var(--lima)}
+  .poemarios{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 22px;padding:20px 0 10px;max-width:440px}
   /* --- Colores distintivos por poemario (según tapa + temática) --- */
   .poem.pm-cvantico,  .takeover[data-poem="cvantico"]{--pc:#3a6bff}
   .poem.pm-frio,      .takeover[data-poem="frio"]{--pc:#5ba8e0}
   .poem.pm-guiso,     .takeover[data-poem="guiso"]{--pc:#cc5fd6}
   .poem.pm-cajanegra, .takeover[data-poem="cajanegra"]{--pc:#2bffb3}
-  .poem{flex:0 0 238px;scroll-snap-align:center;--pc:var(--lima)}
+  .poem{--pc:var(--lima)}
   .poem .cover{--ac:var(--pc);width:100%;aspect-ratio:4/5;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease}
   .poem .cover:hover{transform:scale(1.02)}
   .poem .cover[data-image]{background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#0d0d0d;box-shadow:6px 6px 0 color-mix(in srgb, var(--pc) 35%, transparent)}
@@ -188,7 +187,7 @@
   .poem .cover[data-image]::before{display:none}
   .poem .cover[data-image] .pl{display:none}
   .poem .pname{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--pc);margin-top:10px;text-transform:uppercase}
-  @media(max-width:640px){.poem{flex:0 0 170px}}
+  @media(max-width:480px){.poemarios{gap:20px 16px}}
 
   /* VISUAL */
   .gal{display:flex;gap:14px;overflow-x:auto;padding:24px 0 12px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--celeste) #1a1a1a}
@@ -666,13 +665,13 @@
           <p class="book-hook">Viene a desarmarte y a curarte con lo mismo que te lastimó.</p>
           <p class="book-syn">Entre asfalto que raspa y ciudades invisibles, estos poemas te obligan a mirar para adentro y a mantener fija la vista hasta que te piquen los ojos, sin parpadear. Leelos a solas en voz baja, a los gritos en el baño del trabajo, o susurrados al oído de un desconocido en el colectivo a las ocho de la mañana. Sea cual sea la forma que elijas, no vas a salir sin daños de esta lectura.</p>
           <dl class="book-data">
-            <div><dt>Año</dt><dd>completar</dd></div>
+            <div><dt>Año</dt><dd>2025</dd></div>
             <div><dt>Editorial</dt><dd>Petricor Ediciones</dd></div>
-            <div><dt>ISBN</dt><dd>completar</dd></div>
-            <div><dt>Páginas</dt><dd>completar</dd></div>
-            <div><dt>Formato</dt><dd>Libro físico</dd></div>
+            <div><dt>Género</dt><dd>Poesía</dd></div>
+            <div><dt>Páginas</dt><dd>96</dd></div>
+            <div><dt>Formato</dt><dd>Libro físico · 14 × 20 cm</dd></div>
           </dl>
-          <a class="book-buy" href="#" target="_blank" rel="noopener">Comprar el libro →</a>
+          <a class="book-buy" href="https://petricorediciones.empretienda.com.ar/fisico/carne-prestada-de-pablo-cristin" target="_blank" rel="noopener">Comprar el libro →</a>
         </div>
       </div>
       <div class="book-gallery-head">
@@ -694,15 +693,14 @@
           <p class="book-hook">Un universo de diagonales que se balancean sobre algunas preguntas.</p>
           <p class="book-syn">Un oficinista harto de la monotonía postea su aburrimiento sabiendo lo que va a desatar. Un duelo extraño. Un pueblo que debate frente a un precipicio. Un condenado a muerte que recibe una propuesta: cuidar a un streamer que transmite drogándose en una isla desierta y salvaje. Y, siglos en el futuro, uno de los últimos humanos viaja 500 años dentro de una nave controlada por una IA. La pregunta que sostiene todo: ¿vale la pena tanto trabajo para que los humanos sigamos existiendo?</p>
           <dl class="book-data">
-            <div><dt>Año</dt><dd>completar</dd></div>
+            <div><dt>Año</dt><dd>2024</dd></div>
             <div><dt>Editorial</dt><dd>Petricor Ediciones</dd></div>
             <div><dt>ISBN</dt><dd>978-631-90609-2-8</dd></div>
-            <div><dt>Páginas</dt><dd>completar</dd></div>
+            <div><dt>Páginas</dt><dd>230</dd></div>
             <div><dt>Formato</dt><dd>Libro físico</dd></div>
           </dl>
           <div class="book-actions">
-            <a class="book-buy" href="#" target="_blank" rel="noopener">Comprar el libro →</a>
-            <a class="book-buy secondary" href="#" target="_blank" rel="noopener">Capítulo gratis →</a>
+            <a class="book-buy" href="https://petricorediciones.empretienda.com.ar/fisico/otras-formas-de-perder-el-equilibrio-de-pablo-cristin" target="_blank" rel="noopener">Comprar el libro →</a>
           </div>
         </div>
         <div class="book-cover ph ratio-cover tilt-r" data-image="imgs/portada-otras.jpg"><div class="pl"><span class="ico"></span><span class="lab">Portada</span><span class="dim">Otras Formas… · 1000×1500</span></div></div>
