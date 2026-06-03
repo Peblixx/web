@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>El tiempo · Toda mi poesía · Pablo Cristín</title>
+<meta name="description" content="El tiempo — el tiempo, la finitud, lo que no vuelve. Poemas de Pablo Cristín (@peblix), del libro ABISMO: poesías reunidas 2016–2026.">
+<meta name="author" content="Pablo Cristín"><meta name="theme-color" content="#0a0a0a">
+<link rel="canonical" href="https://www.pablocristin.com.ar/el-tiempo.html">
+<link rel="icon" type="image/svg+xml" href="imgs/favicon.svg">
+<meta property="og:type" content="article"><meta property="og:title" content="El tiempo · Toda mi poesía">
+<meta property="og:description" content="el tiempo, la finitud, lo que no vuelve."><meta property="og:image" content="https://www.pablocristin.com.ar/imgs/og-image.jpg"><meta property="og:locale" content="es_AR">
+<script type="application/ld+json">[{"@context": "https://schema.org","@type": "CollectionPage","@id": "https://www.pablocristin.com.ar/el-tiempo.html#page","url": "https://www.pablocristin.com.ar/el-tiempo.html","name": "El tiempo · Toda mi poesía · Pablo Cristín","description": "el tiempo, la finitud, lo que no vuelve","inLanguage": "es-AR","about": {"@type": "Thing","name": "Poesía"},"isPartOf": {"@type": "WebSite","name": "Pablo Cristín","url": "https://www.pablocristin.com.ar/"},"author": {"@type": "Person","name": "Pablo Cristín","url": "https://www.pablocristin.com.ar/"}},{"@context": "https://schema.org","@type": "BreadcrumbList","itemListElement": [{"@type": "ListItem","position": 1,"name": "Inicio","item": "https://www.pablocristin.com.ar/"},{"@type": "ListItem","position": 2,"name": "Toda mi poesía","item": "https://www.pablocristin.com.ar/poemas.html"},{"@type": "ListItem","position": 3,"name": "El tiempo","item": "https://www.pablocristin.com.ar/el-tiempo.html"}]}]</script>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Public+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#0a0a0a;--paper:#f4f4f0;--fucsia:#ff1f8e;--celeste:#00e0ff;--lima:#c6ff00;--amarillo:#ffe500;--violeta:#ffe500;
+    --secc:#ffe500;--display:"Bricolage Grotesque",sans-serif;--mono:"Space Mono",monospace;--body:"Public Sans",sans-serif;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--paper);font-family:var(--body);-webkit-font-smoothing:antialiased;min-height:100vh;position:relative;overflow-x:hidden}
+  .bg-versos{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .bg-versos::before{content:"";position:absolute;inset:-25%;
+    background:repeating-linear-gradient(0deg,transparent 0 46px,color-mix(in srgb,var(--secc) 12%,transparent) 46px 47px,transparent 47px 94px);
+    animation:flow 26s linear infinite}
+  @keyframes flow{from{transform:translateY(0)}to{transform:translateY(-94px)}}
+  .wrap{position:relative;z-index:2;max-width:760px;margin:0 auto;padding:40px 28px 90px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:46px;flex-wrap:wrap;gap:14px}
+  .back{display:inline-flex;align-items:center;gap:9px;text-decoration:none;color:var(--paper);font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;border:1.5px solid #2a2a2a;padding:10px 16px;transition:border-color .2s,color .2s}
+  .back:hover{border-color:var(--secc);color:var(--secc)}
+  .brand{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;color:#777;text-transform:uppercase}
+  .head{margin-bottom:14px;text-align:center}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--secc);border:1px solid var(--secc);padding:5px 11px;display:inline-block;margin-bottom:18px}
+  h1{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,8vw,4.2rem);line-height:.9;letter-spacing:-.02em;text-transform:uppercase}
+  .head .desc{font-family:var(--mono);font-size:.86rem;color:#9a9a96;margin-top:16px;letter-spacing:.03em}
+  .head .count{font-family:var(--mono);font-size:.74rem;color:#666;margin-top:10px;letter-spacing:.1em}
+  .sep{display:flex;align-items:center;gap:18px;margin:50px auto;max-width:420px}
+  .sep-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--secc),transparent)}
+  .sep-mark{color:var(--secc);font-size:1.05rem;animation:tw 3.4s ease-in-out infinite;text-shadow:0 0 10px var(--secc)}
+  @keyframes tw{0%,100%{opacity:.45;transform:scale(.9) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(22deg)}}
+  .poema{max-width:600px;margin:0 auto}
+  .poema-tit{font-family:var(--display);font-weight:700;font-size:1.5rem;line-height:1.12;margin-bottom:20px;color:var(--paper)}
+  .poema-cuerpo{font-family:var(--body);font-size:1.12rem;line-height:1.9;color:#dcdcd7;white-space:pre-line}
+  .parte-sep{text-align:center;color:var(--secc);opacity:.45;margin:20px 0;font-size:.95rem;letter-spacing:.4em}
+  .nav-sec{display:flex;justify-content:space-between;gap:14px;margin-top:76px;flex-wrap:wrap}
+  .nav-sec a{flex:1;min-width:200px;text-decoration:none;border:1.5px solid #232323;background:#0d0d0d;padding:18px 20px;font-family:var(--mono);font-size:.82rem;color:var(--paper);transition:border-color .2s,color .2s}
+  .nav-sec a:hover{border-color:var(--secc);color:var(--secc)}
+  .nav-sec .lab{display:block;font-size:.68rem;letter-spacing:.16em;color:#777;text-transform:uppercase;margin-bottom:6px}
+  .nav-sec .next{text-align:right}
+  .totop{display:block;text-align:center;margin-top:30px;font-family:var(--mono);font-size:.76rem;color:#666;text-decoration:none;letter-spacing:.08em}
+  .totop:hover{color:var(--secc)}
+  @media (prefers-reduced-motion:reduce){.bg-versos::before,.sep-mark{animation:none}}
+
+  .crumbs{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:#777;margin-bottom:30px;text-align:center}
+  .crumbs a{color:#999;text-decoration:none}.crumbs a:hover{color:var(--secc)}
+  .crumbs .sepc{color:#444;margin:0 8px}.crumbs .current{color:var(--secc)}</style></head>
+<body id="top"><div class="bg-versos" aria-hidden="true"></div><div class="wrap">
+  <div class="topbar"><a class="back" href="poemas.html">← Volver al índice</a><span class="brand">Pablo Cristín · @peblix</span></div>
+  <nav class="crumbs" aria-label="Migas de pan"><a href="index.html">Inicio</a><span class="sepc">›</span><a href="poemas.html">Toda mi poesía</a><span class="sepc">›</span><span class="current">El tiempo</span></nav>
+  <div class="head"><span class="kicker">Movimiento IV</span><h1>El tiempo</h1><p class="desc">// el tiempo, la finitud, lo que no vuelve</p><p class="count">27 poemas</p></div>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="los-que-dicen-que-la-decada">
+      <h2 class="poema-tit">Los que dicen que la década</h2>
+      <div class="poema-cuerpo">Los que dicen que la década
+Empieza en 2021
+Sólo por cuestiones lógicas,
+Se olvidan
+Que algunos
+Necesitamos celebrar
+En años
+Que terminen en cero
+Por cuestiones
+De
+Salud.
+Gracias</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="la-luz-rebota-contra-los-objetos">
+      <h2 class="poema-tit">La luz rebota contra los objetos</h2>
+      <div class="poema-cuerpo">La luz rebota contra los objetos,
+entra en nuestros ojos,
+el cerebro revela las imágenes,
+les da forma,
+color,
+perspectiva,
+las procesa,
+las llena de significados,
+y generamos una idea,
+en milésimas de segundo.
+Es decir,
+que contante
+e inevitablemente,
+vivimos
+milésimas de segundo
+en el pasado.
+(Para vos, que te jactás de vivir el presente).</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="damos-nuestras-realidades">
+      <h2 class="poema-tit">Damos nuestras realidades</h2>
+      <div class="poema-cuerpo">Damos nuestras realidades
+como únicas,
+arrastrando el pasado
+por todo el sendero,
+pero al frenar de golpe
+para contemplarlo,
+su peso creciente
+nos golpea
+por pura inercia
+y nos impulsa
+con los ojos cerrados,
+rodando y lastimados
+hacia el futuro.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="celulas-muertas">
+      <h2 class="poema-tit">Células Muertas</h2>
+      <div class="poema-cuerpo">Células Muertas
+Nuestro cuerpo
+va dejando constantemente
+un rastro de células muertas,
+de forma que en
+masomenos diez años
+cada una de ellas,
+cada partícula,
+el cien por cien,
+habrá sido reemplazada
+por otra nueva.
+Y vos ahí,
+mirando fotos viejas,
+preguntándote
+porqué no sos el mismo
+que hace unos años.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="cuando-dormimos-en-realidad">
+      <h2 class="poema-tit">Cuando dormimos en realidad</h2>
+      <div class="poema-cuerpo">Cuando dormimos,
+en realidad,
+viajamos en el tiempo.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="tengo-sueno">
+      <h2 class="poema-tit">Tengo sueño</h2>
+      <div class="poema-cuerpo">- Tengo sueño.
++ ¡Pero acabás de dormir 12 horas!
+- ¿Y eso qué tiene que ver?</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="que-mas-aterrador">
+      <h2 class="poema-tit">Que más aterrador</h2>
+      <div class="poema-cuerpo">Que más aterrador
+Que lo imparable
+Del tiempo</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="todavia-estas-a-tiempo">
+      <h2 class="poema-tit">Todavía estás a tiempo</h2>
+      <div class="poema-cuerpo">Todavía estás a tiempo de hacer algo que dure para siempre.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="todos-tenemos-distintos-tiempos">
+      <h2 class="poema-tit">Todos tenemos distintos tiempos</h2>
+      <div class="poema-cuerpo">Todos tenemos
+distintos tiempos
+El problema
+Es que seguimos
+Al mismo
+Reloj</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="no-podemos-impedir">
+      <h2 class="poema-tit">No podemos impedir</h2>
+      <div class="poema-cuerpo">No podemos impedir
+el paso del tiempo,
+entonces, al menos,
+intentemos disfrutarlo.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="le-tenes-miedo-a-las-agujas">
+      <h2 class="poema-tit">Le tenés miedo a las agujas?</h2>
+      <div class="poema-cuerpo">Le tenés miedo a las agujas?
+Si, a las del reloj.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="el-tiempo">
+      <h2 class="poema-tit">El tiempo</h2>
+      <div class="poema-cuerpo">El tiempo
+es un veneno
+lento
+e infalible</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="somos-el-eco-constante">
+      <h2 class="poema-tit">Somos el eco constante</h2>
+      <div class="poema-cuerpo">Somos el eco constante
+del segundo
+que acaba de pasar.
+Una vibración en el tiempo
+con frecuencias
+similares.
+Somos millones de cuerdas
+saltando simultáneas
+en una coreografía
+que dura
+lo que el corazón
+permita.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Somos el constante reflejo
+Del segundo
+Que acaba de pasar</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="con-el-tiempo-uno-aprende">
+      <h2 class="poema-tit">Con el tiempo uno aprende</h2>
+      <div class="poema-cuerpo">Con el tiempo uno aprende, generalmente por las malas, cuándo
+
+aplicar eutanasia a algunos sentimientos.
+No le tengas piedad a lo absoluto.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="que-aterrador-es-no-saber">
+      <h2 class="poema-tit">Qué aterrador es no saber</h2>
+      <div class="poema-cuerpo">Qué aterrador es no saber si hoy hiciste algo por última vez.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="por-mirar">
+      <h2 class="poema-tit">Por mirar</h2>
+      <div class="poema-cuerpo">Por mirar
+Cuánto tiempo
+Me quedaba,
+Me quedé
+Sin tiempo
+¿De qué
+están hechos
+los segundos?</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="yo-tambien-brillaba">
+      <h2 class="poema-tit">Yo también brillaba</h2>
+      <div class="poema-cuerpo">Yo también brillaba
+cuando era nuevo,
+el tiempo
+me hizo
+un diamante opaco
+y lo acepto.
+No todo
+lo que es oro
+brilla.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="que-dificil">
+      <h2 class="poema-tit">Qué difícil</h2>
+      <div class="poema-cuerpo">Qué difícil
+es dejar
+que el tiempo
+
+transcurra
+y aceptar
+que la única
+acción posible
+es esperar.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="que-dificil-2">
+      <h2 class="poema-tit">Qué difícil</h2>
+      <div class="poema-cuerpo">Qué difícil
+es dejar correr el tiempo
+y simplemente esperar.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="a-donde">
+      <h2 class="poema-tit">A dónde</h2>
+      <div class="poema-cuerpo">¿A dónde
+vas a ir
+cuando ya
+no exista
+ningún lugar?</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Llega un punto
+donde te das cuenta
+que todos esos
+lugares felices
+ya no existen.
+Y no era sólamente el lugar,
+extrañamos el espacio-tiempo.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">En este momento,
+muchos lugares
+donde fuiste feliz
+sólo perduran
+en tu memoria
+y no hay palabras
+
+que hagan justicia
+ni que transmitan
+los recuerdos
+que te gustaria mostrar
+para que los demás
+sientan
+lo que vos sentiste
+en esos lugares.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Esos recuerdos,
+completamente tuyos,
+son tesoros
+intransmisibles
+que sólo vos
+podés entender.
+En este momento
+muchos lugares
+están dejando
+de existir.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="te-ofrezco-un-lugar-sin-tiempo">
+      <h2 class="poema-tit">Te ofrezco un lugar sin tiempo</h2>
+      <div class="poema-cuerpo">Te ofrezco un lugar sin tiempo.
+Es pequeño, casi asfixiante,
+pero en él, el tiempo es un témpano,
+donde podemos retorcer las horas,
+devorar segundos, revolver años.
+Te ofrezco un lugar sin tiempo,
+donde puedas cerrar los ojos
+y sentirte siempre en un abrazo.
+Un lugar estanco donde se puede oír el eco
+de tus propios pensamientos
+golpear tu cerebro repetidamente
+
+y separar las voces
+hasta descubrir quién está gritando.
+Te ofrezco un lugar sin tiempo,
+donde siempre sea hoy,
+y no tengas que seguir
+corriendo del pasado
+ni sientas al futuro
+venir hacia vos,
+como una pared,
+siempre a punto de aplastarte.
+Te ofrezco un lugar sin tiempo,
+donde los relojes detenidos
+no dan la hora exacta
+dos veces al dia,
+y no hay tardes ni tempranos.
+Te ofrezco un lugar sin tiempo,
+y toda la eternidad que me quede
+para acompañarte mientras sanás.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="crees-que-se-pueda-viajar-en-el-tiempo">
+      <h2 class="poema-tit">Crees que se pueda viajar en el tiempo?</h2>
+      <div class="poema-cuerpo">Crees que se pueda viajar en el tiempo?
+Si, hacía el futuro
+Si, hacía el pasado
+si, en cualquier dirección
+No se puede.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Pensá en esto:
+Si fuera posible viajar en el tiempo, significa que existiría un lugar
+donde se almacena cada segundo para que podamos volver a él.
+Si se almacena significa que cada segundo está guardado, y si
+está guardado es porque está durando más de un segundo*.
+De esta forma, cada segundo duraría para siempre**
+
+De esta forma, cada segundo es una eternidad.
+*Puse segundo para simplificar, sería algo como fotograma o
+unidad mínima de tiempo
+** Siempre que exista el sitio de almacenamiento</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="te-dicen">
+      <h2 class="poema-tit">Te dicen</h2>
+      <div class="poema-cuerpo">Te dicen
+que vivas
+este momento
+mientras
+te venden
+el próximo.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">El tiempo
+ya no pasa,
+se actualiza.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">La ansiedad
+no es un síntoma,
+es una
+suscripción mensual.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Las redes mienten,
+los medios exageran,
+y todos aplaudimos
+porque la mentira
+es más rápida
+que la verdad.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Es una ironía:
+tenemos
+
+toda la información
+en las manos
+y cero paciencia
+para leerla.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">El tiempo
+me mastica lento
+y me escupe
+en titulares falsos.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">La ansiedad
+me arranca la piel
+para que el algoritmo
+tenga algo fresco
+que mostrar.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">La verdad
+murió en un feed,
+su cadáver, todavía,
+recibe likes.</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="el-calendario">
+      <h2 class="poema-tit">El calendario</h2>
+      <div class="poema-cuerpo">El calendario
+nos dijo
+que tenemos
+que sonreír.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Brindemos
+por lo que falta,
+por los nombres
+que no vienen,
+
+por las ganas
+que no alcanzaron.
+¡Salud por todos
+los fracasos!</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Se agolpan todos
+sobre mesas llenas
+y corazones en oferta.
+Sonrisas de plástico,
+amor en cuotas.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Llenamos
+el mundo de luces
+para que no se note
+todo lo que está roto.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">No duele
+lo que falta,
+duele
+lo que sigue ahí
+y nadie
+se anima
+a nombrar.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">¿Cuánto
+de lo que sos
+estás escondiendo
+para que la foto
+salga bien?</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Cuando se apagan
+las luces del arbolito,
+
+queda lo de siempre:
+sobras de un cuerpo cansado,
+algún recuerdo despierto
+demasiado tarde
+y esa pregunta muda
+que nadie pronuncia:
+¿para qué
+seguiremos fingiendo?</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="comemos-sobras">
+      <h2 class="poema-tit">Comemos sobras</h2>
+      <div class="poema-cuerpo">Comemos sobras
+de un abrazo
+que ya terminó.
+Promesas en borrador,
+culpas sin archivar,
+el cuerpo todavía
+en estado de alerta.
+El calendario
+hace ruido,
+pero no dice nada.
+No es nostalgia:
+es resaca emocional.
+Nadie pregunta
+cómo estás
+porque todos
+están igual
+que vos.
+Horas prestadas
+donde fingimos descanso
+mientras negociamos
+con los recuerdos.
+¿En qué momento
+
+el tiempo libre
+se volvió
+este encierro?
+No es una pausa,
+es el ruido
+de no saber
+quién somos
+cuando nadie
+nos mira.
+Estamos acá,
+suspendidos,
+mirando el piso
+para no cruzarnos
+con nuestro reflejo.
+Y vos,
+¿Estás respirando
+por costumbre
+o por amor?</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="llegaste-hasta-aca">
+      <h2 class="poema-tit">Llegaste hasta acá</h2>
+      <div class="poema-cuerpo">Llegaste hasta acá
+con el cuerpo cansado
+y el alma en modo
+ahorro de energía.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">No fue el año
+que prometiste,
+fue el que pudiste.
+(Y eso está muy bien)</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Aprendimos
+a respirar hondo
+
+cuando nadie miraba,
+a suspirar y seguir,
+aunque seguir
+era inventar un rumbo
+en cada paso.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Todos somos
+otra persona,
+distinta a la de
+doce meses atrás.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Seguimos vivos.
+Incómodamente vivos.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Apenas
+dejamos de sangrar
+lo suficiente
+como para reponer
+la sangre.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Aunque el año nuevo
+no venga a salvarnos,
+Que venga
+a encontrarnos de pie,
+aunque sea
+temblando.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Si hay esperanza,
+no es luz,
+es insistencia,
+y con eso,
+
+por ahora,
+es suficiente.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Si sobrevivir
+ya fue un logro,
+¿qué vas
+a hacer ahora
+con todo lo que
+todavía late?</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">¿Qué excusa
+vas a poner
+para no cumplir
+lo que prometiste
+para este año nuevo?</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <article class="poema" id="feliz-ano-nuevo">
+      <h2 class="poema-tit">¡Feliz año nuevo!</h2>
+      <div class="poema-cuerpo">¡Feliz año nuevo!
+Te saludo ahora
+por si colapsan las líneas
+o por si colapso yo.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Brindar cuenta
+como prueba
+de vida.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Brindemos
+no solo por lo que viene,
+también
+por lo que no se fue,
+por lo que se quedó
+
+a vivir adentro
+sin pedir permiso.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Hay dolores
+que no quieren irse,
+quieren nombre,
+espacio,
+silencio.
+Quieren
+ser pronunciados.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Y aun así,
+seguimos
+mirando el calendario
+como quien mira una herida
+para ver si cicatrizó
+o sólamente aprendió
+a no sangrar tanto.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Ojalá
+que aprendamos
+a decir que no
+sin dar explicaciones,
+a quedarnos
+sin pedir permiso.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Que la esperanza
+no venga en frases hechas,
+sino una obstinación pequeña,
+mal educada, cabeza dura
+que no se rinde
+aunque no sepa dónde va.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">Y si no mejora nada,
+que al menos
+no nos acostumbremos.
+Con eso,
+ya es un montón.</div>
+      <div class="parte-sep" aria-hidden="true">∗</div>
+      <div class="poema-cuerpo">¡Salud!</div>
+    </article>
+    <div class="sep" aria-hidden="true"><span class="sep-line"></span><span class="sep-mark">✦</span><span class="sep-line"></span></div>
+    <nav class="nav-sec" aria-label="Navegación entre secciones">
+      <a href="la-intemperie.html"><span class="lab">Anterior</span>← La intemperie</a>
+      <a class="next" href="el-abismo.html"><span class="lab">Siguiente</span>El abismo →</a>
+    </nav>
+    <a class="totop" href="#top">↑ volver arriba</a>
+  </div></body></html>

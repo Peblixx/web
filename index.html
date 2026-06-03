@@ -600,6 +600,44 @@
     .psubmit{width:100%}
     .modal-info .mtag,.modal-info .mhook,.modal-info .msyn,.plabel,.pfine{overflow-wrap:break-word}
   }
+
+  /* ===== TODA MI POESÍA ===== */
+  #s-poesia .poesia-lines{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+  /* renglones que fluyen hacia arriba, como versos pasando */
+  #s-poesia .poesia-lines::before{content:"";position:absolute;inset:-25%;
+    background:repeating-linear-gradient(0deg,transparent 0 44px,rgba(155,48,255,.10) 44px 45px,transparent 45px 90px);
+    animation:versos-flow 20s linear infinite}
+  @keyframes versos-flow{from{transform:translateY(0)}to{transform:translateY(-90px)}}
+  /* versos sueltos que se escriben y se borran */
+  #s-poesia .verso{position:absolute;height:2px;background:var(--violeta);transform:scaleX(0);transform-origin:left center;
+    box-shadow:0 0 10px rgba(155,48,255,.5);animation:verso-write 7s ease-in-out infinite}
+  @keyframes verso-write{0%{transform:scaleX(0);opacity:0}
+    14%{opacity:.85}45%{transform:scaleX(1);opacity:.85}
+    62%{transform:scaleX(1);opacity:.85}100%{transform:scaleX(0);opacity:0;transform-origin:right center}}
+  #s-poesia .wrap{position:relative;z-index:5}
+  .poesia-cta{display:inline-flex;align-items:center;gap:14px;margin-top:30px;
+    background:none;border:1.5px solid var(--violeta);color:var(--paper);
+    font-family:var(--mono);font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;
+    padding:16px 26px;text-decoration:none;position:relative;overflow:hidden;
+    transition:color .25s,border-color .25s}
+  .poesia-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+  .poesia-actions .poesia-cta{margin-top:0}
+  .poesia-cta.sub{--violeta:#ff6719}
+  .poesia-cta .pc-logo{width:17px;height:17px;flex:0 0 17px;color:var(--violeta);transition:color .25s}
+  .poesia-cta.sub:hover .pc-logo{color:#0a0a0a}
+  .poesia-cta::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--violeta);
+    transform:translateX(-101%);transition:transform .3s ease}
+  .poesia-cta:hover{color:#0a0a0a;border-color:var(--violeta)}
+  .poesia-cta:hover::before{transform:translateX(0)}
+  .poesia-cta .pc-ico{color:var(--violeta);transition:color .25s;animation:pc-twinkle 3s ease-in-out infinite}
+  .poesia-cta:hover .pc-ico{color:#0a0a0a}
+  .poesia-cta .pc-arrow{transition:transform .25s}
+  .poesia-cta:hover .pc-arrow{transform:translateX(5px)}
+  @keyframes pc-twinkle{0%,100%{opacity:.5;transform:scale(.9) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(20deg)}}
+  @media (prefers-reduced-motion:reduce){
+    #s-poesia .poesia-lines::before,#s-poesia .verso,.poesia-cta .pc-ico{animation:none}
+    #s-poesia .verso{transform:scaleX(1);opacity:.5}
+  }
 </style>
 </head>
 <body>
@@ -713,6 +751,37 @@
     </div>
   </section>
 
+  <!-- TODA MI POESÍA -->
+  <section class="panel bg bg-diag tall" id="s-poesia" data-name="Toda mi poesía" style="background:#0a0a0a;--ac:var(--violeta)">
+    <span class="num"></span>
+    <div class="poesia-lines" aria-hidden="true">
+      <span class="verso" style="top:16%;left:7%;width:180px"></span>
+      <span class="verso" style="top:24%;left:11%;width:120px;animation-delay:-1.2s"></span>
+      <span class="verso" style="top:33%;left:7%;width:240px;animation-delay:-2.4s"></span>
+      <span class="verso" style="top:62%;right:10%;width:160px;animation-delay:-0.6s"></span>
+      <span class="verso" style="top:70%;right:14%;width:220px;animation-delay:-1.8s"></span>
+      <span class="verso" style="top:79%;right:9%;width:110px;animation-delay:-3s"></span>
+      <span class="verso" style="top:46%;left:46%;width:90px;animation-delay:-2.1s"></span>
+    </div>
+    <div class="wrap">
+      <span class="kicker" style="--ac:var(--violeta)">Toda mi poesía</span>
+      <h2>Toda mi<br>poesía</h2>
+      <p class="sub">// 446 poemas reunidos en cinco movimientos. Un mapa para perderse adentro.</p>
+      <div class="poesia-actions">
+        <a class="poesia-cta" href="poemas.html">
+          <span class="pc-ico" aria-hidden="true">✦</span>
+          <span>Entrar al índice de poemas</span>
+          <span class="pc-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="poesia-cta sub" href="https://substack.com/@peblix" target="_blank" rel="noopener">
+          <svg class="pc-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3.4" width="18" height="3"/><rect x="3" y="9" width="18" height="3"/><path d="M3 14.6v6.9l9-4 9 4v-6.9z"/></svg>
+          <span>Seguime en Substack</span>
+          <span class="pc-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- 4 · VISUAL -->
   <section class="panel bg bg-cross" id="s3" data-name="Visual" style="background:#0a0a0a">
     <span class="num">04 / 08</span>
@@ -796,17 +865,6 @@
       <a class="press-kit" href="#" target="_blank" rel="noopener"><span class="pk-arrow">↓</span> Descargar kit de prensa</a>
       <div class="press-head"><span class="kicker-sm" style="color:var(--celeste)">Notas en medios</span></div>
       <div class="press-list" id="prensaLinks"></div>
-    </div>
-  </section>
-
-  <!-- 7 · DIARIO -->
-  <section class="panel bg bg-dots" id="s6" data-name="Diario" style="background:#0a0a0a">
-    <span class="num">07 / 08</span>
-    <div class="wrap">
-      <span class="kicker" style="--ac:var(--violeta)">Diario / Cartas</span>
-      <h2>Cartas<br>mensuales</h2>
-      <p class="sub">// El feed de Substack y la suscripción al newsletter, integrados con la estética del sitio.</p>
-      <span class="pill viol">→ Suscribirme</span>
     </div>
   </section>
 
