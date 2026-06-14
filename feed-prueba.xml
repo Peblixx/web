@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>ABISMO · Pablo Cristín (prueba)</title>
+  <link>https://www.pablocristin.com.ar/</link>
+  <description>Poesías reunidas 2016–2026 de Pablo Cristín (@peblix).</description>
+  <language>es-AR</language>
+  <lastBuildDate>Thu, 11 Jun 2026 19:06:57 -0000</lastBuildDate>
+  <atom:link href="https://www.pablocristin.com.ar/feed.xml" rel="self" type="application/rss+xml"/>
+  <item>
+    <title>Construí una ventana para mirar hacia adentro</title>
+    <link>https://www.pablocristin.com.ar/por-dentro-1.html#construi-una-ventana-para-mirar-hacia-adentro</link>
+    <guid isPermaLink="false">peblix-abismo-0001</guid>
+    <pubDate>Fri, 01 Jan 2016 10:00:00 -0000</pubDate>
+    <dc:creator>Pablo Cristín</dc:creator>
+    <category>Por dentro (I)</category>
+    <content:encoded><![CDATA[<p>Construí una ventana para mirar hacia adentro.<br>
+Y se abre desde afuera, para que te asomes cuando quieras.</p>]]></content:encoded>
+  </item>
+  <item>
+    <title>Cuando creas que tenés</title>
+    <link>https://www.pablocristin.com.ar/por-dentro-1.html#cuando-creas-que-tenes</link>
+    <guid isPermaLink="false">peblix-abismo-0002</guid>
+    <pubDate>Sat, 09 Jan 2016 20:28:32 -0000</pubDate>
+    <dc:creator>Pablo Cristín</dc:creator>
+    <category>Por dentro (I)</category>
+    <content:encoded><![CDATA[<p>Cuando creas que tenés<br>
+una idea muy distinta a lo establecido<br>
+y tengas miedo de contársela a alguien,<br>
+acordate<br>
+que hace no mucho<br>
+el sol<br>
+giraba<br>
+alrededor<br>
+de<br>
+la<br>
+<br>
+tierra.</p>]]></content:encoded>
+  </item>
+  <item>
+    <title>Para inspirarme</title>
+    <link>https://www.pablocristin.com.ar/por-dentro-1.html#para-inspirarme</link>
+    <guid isPermaLink="false">peblix-abismo-0003</guid>
+    <pubDate>Mon, 18 Jan 2016 06:57:05 -0000</pubDate>
+    <dc:creator>Pablo Cristín</dc:creator>
+    <category>Por dentro (I)</category>
+    <content:encoded><![CDATA[<p>Para inspirarme,<br>
+miro para afuera,<br>
+para escribir,<br>
+miro para adentro.</p>]]></content:encoded>
+  </item>
+  <item>
+    <title>Solamente me gusta partir</title>
+    <link>https://www.pablocristin.com.ar/por-dentro-1.html#solamente-me-gusta-partir</link>
+    <guid isPermaLink="false">peblix-abismo-0004</guid>
+    <pubDate>Tue, 26 Jan 2016 17:25:38 -0000</pubDate>
+    <dc:creator>Pablo Cristín</dc:creator>
+    <category>Por dentro (I)</category>
+    <content:encoded><![CDATA[<p>Solamente<br>
+me gusta<br>
+partir frases<br>
+al medio<br>
+porque creo<br>
+que la estructura<br>
+<br>
+vertical<br>
+de un texto<br>
+con espacios<br>
+incongruentes,<br>
+le dan<br>
+credibilidad.<br>
+Además,<br>
+me encantan<br>
+las jirafas.<br>
+Y a vos<br>
+también.</p>]]></content:encoded>
+  </item>
+  <item>
+    <title>Creemos que vivimos en el mundo real</title>
+    <link>https://www.pablocristin.com.ar/por-dentro-1.html#creemos-que-vivimos-en-el-mundo-real</link>
+    <guid isPermaLink="false">peblix-abismo-0005</guid>
+    <pubDate>Thu, 04 Feb 2016 03:54:10 -0000</pubDate>
+    <dc:creator>Pablo Cristín</dc:creator>
+    <category>Por dentro (I)</category>
+    <content:encoded><![CDATA[<p>Creemos que vivimos en el mundo real<br>
+pero en realidad vivimos en nuestra mente.</p>]]></content:encoded>
+  </item>
+</channel>
+</rss>

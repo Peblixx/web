@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>¡Gracias! · Caja Negra · Pablo Cristín</title>
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" type="image/svg+xml" href="imgs/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Public+Sans:wght@400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#0a0a0a;--paper:#f4f4f0;--ac:#2bffb3;
+    --display:"Bricolage Grotesque",sans-serif;--mono:"Space Mono",monospace;--body:"Public Sans",sans-serif;}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:linear-gradient(135deg, #0a0a14 0%, #1a0a2a 50%, #050510 100%);color:var(--paper);font-family:var(--body);-webkit-font-smoothing:antialiased;
+    min-height:100vh;position:relative;overflow-x:hidden;display:flex;flex-direction:column}
+  .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .tk-lines{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .tk-lines::before,.tk-lines::after{content:"";position:absolute;inset:-40%;will-change:transform}
+
+  .bg .tk-lines::before{background-image:linear-gradient(135deg, transparent 46%, rgba(43,255,179,.24) 46% 48%, transparent 48%),linear-gradient(45deg, transparent 46%, rgba(43,255,179,.24) 46% 48%, transparent 48%);background-size:48px 48px;animation:cn-march 8s linear infinite}
+  .bg .tk-lines::after{background-image:linear-gradient(135deg, transparent 46%, rgba(255,0,128,.13) 46% 48%, transparent 48%),linear-gradient(45deg, transparent 46%, rgba(255,0,128,.13) 46% 48%, transparent 48%);background-size:96px 96px;animation:cn-march 16s linear infinite reverse;opacity:.7}
+  @keyframes cn-march{from{transform:translate(0,0)}to{transform:translate(48px,48px)}}
+  .wrap{position:relative;z-index:2;width:100%;max-width:900px;margin:0 auto;padding:34px 26px 70px;flex:1}
+  .topbar{display:flex;justify-content:center;margin-bottom:30px}
+  .brand{font-family:var(--mono);font-size:.74rem;letter-spacing:.18em;color:#9a9a9a;text-transform:uppercase}
+  .hero{text-align:center;margin-bottom:54px}
+  .cover{width:170px;height:auto;display:block;margin:0 auto 26px;
+    box-shadow:12px 12px 0 color-mix(in srgb,var(--ac) 38%,transparent);transform:rotate(-3deg)}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ac);
+    border:1px solid var(--ac);padding:5px 12px;display:inline-block;margin-bottom:20px;background:rgba(10,10,10,.45)}
+  h1{font-family:var(--display);font-weight:800;font-size:clamp(2.6rem,9vw,4.4rem);line-height:.9;
+    letter-spacing:-.03em;text-transform:uppercase;text-shadow:0 2px 30px rgba(0,0,0,.6)}
+  .lead{font-family:var(--body);font-size:1.12rem;line-height:1.6;color:#e6e6e2;margin:20px auto 0;max-width:46ch;text-shadow:0 1px 12px rgba(0,0,0,.7)}
+  .cd-box{margin:30px auto 0;font-family:var(--mono);font-size:.9rem;color:#cfcfcf;letter-spacing:.04em;text-shadow:0 1px 10px rgba(0,0,0,.7)}
+  .cd-box b{color:var(--ac)}
+  .btn{display:inline-flex;align-items:center;gap:12px;margin-top:18px;
+    background:var(--ac);color:#0a0a0a;font-family:var(--mono);font-size:.92rem;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;padding:15px 26px;text-decoration:none;
+    border:1.5px solid var(--ac);transition:background .2s,color .2s}
+  .btn:hover{background:transparent;color:var(--ac)}
+  .blocked{margin-top:16px;font-family:var(--mono);font-size:.82rem;color:#ffb3b3}
+  .sec-tit{font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:#cfcfcf;
+    text-align:center;margin:0 0 26px;text-shadow:0 1px 10px rgba(0,0,0,.7)}
+  .others,.pack-grid{display:grid;gap:18px;margin:0 auto}
+  .others{grid-template-columns:repeat(3,1fr);max-width:620px}
+  .pack-grid{grid-template-columns:repeat(4,1fr);max-width:760px}
+  .ocard{display:block;text-decoration:none;color:var(--paper);border:1.5px solid rgba(255,255,255,.16);
+    background:rgba(13,13,13,.66);backdrop-filter:blur(3px);padding:16px 14px;text-align:center;
+    transition:border-color .25s,transform .25s}
+  .ocard:hover{transform:translateY(-4px)}
+  .ocard img{width:100%;height:auto;display:block;margin-bottom:12px}
+  .ocard .on{display:block;font-family:var(--display);font-weight:700;font-size:1.05rem;line-height:1.15}
+  .ocard .og{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;margin-top:8px;display:inline-block}
+  .social{text-align:center;margin-top:58px}
+  .social p{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:#cfcfcf;margin-bottom:18px;text-shadow:0 1px 10px rgba(0,0,0,.7)}
+  .social-links{display:flex;gap:16px;justify-content:center}
+  .slink{display:inline-flex;align-items:center;gap:9px;text-decoration:none;color:var(--paper);
+    border:1.5px solid rgba(255,255,255,.22);background:rgba(10,10,10,.4);padding:11px 20px;
+    font-family:var(--mono);font-size:.82rem;letter-spacing:.06em;transition:border-color .2s,color .2s}
+  .slink svg{width:18px;height:18px}
+  .slink:hover{border-color:var(--ac);color:var(--ac)}
+  .foot{position:relative;z-index:2;text-align:center;padding:0 26px 36px}
+  .foot a{font-family:var(--mono);font-size:.76rem;color:#888;text-decoration:none;letter-spacing:.06em}
+  .foot a:hover{color:var(--ac)}
+  @media(max-width:680px){.pack-grid{grid-template-columns:1fr 1fr;max-width:360px}}
+  @media(max-width:560px){.others{grid-template-columns:1fr 1fr;max-width:340px}.cover{width:150px}}
+  @media (prefers-reduced-motion:reduce){.tk-lines::before,.tk-lines::after,.bg::before,.cv-star,.cv-bgplanet{animation:none!important}}
+  
+</style></head>
+<body>
+  <div class="bg" data-poem="cajanegra" aria-hidden="true"><div class="tk-lines"></div></div>
+  <div class="wrap">
+    <div class="topbar"><span class="brand">Pablo Cristín · @peblix</span></div>
+    <div class="hero">
+      <img class="cover" src="imgs/CajaNegra.png" alt="Tapa de Caja Negra">
+      <span class="kicker">Ya es tuyo</span>
+      <h1>¡Gracias!</h1>
+      <p class="lead">Listo, <b>Caja Negra</b> ya está en camino. Lo desconocido, las preguntas sin respuesta y los silencios que hablan.</p>
+      <div class="cd-box">Tu poemario se abre en <b id="cd">5</b> segundos…</div>
+      <a class="btn" id="openbtn" href="pdf/caja-negra.pdf" target="_blank" rel="noopener">Abrir Caja Negra ahora →</a>
+      <p class="blocked" id="blocked" hidden>↑ Tu navegador bloqueó la apertura automática. Tocá el botón para abrir tu poemario.</p>
+    </div>
+    <p class="sec-tit">Ya que estás, llevate los otros tres</p>
+    <div class="others">
+      <a class="ocard" href="pdf/cvantico.pdf" target="_blank" rel="noopener" style="--ac:#3a6bff">
+        <img src="imgs/Cuantico-Tapa.png" alt="Tapa de Cvántico">
+        <span class="on">Cvántico</span>
+        <span class="og" style="color:#3a6bff">Leer →</span>
+      </a>
+      <a class="ocard" href="pdf/frio.pdf" target="_blank" rel="noopener" style="--ac:#5ba8e0">
+        <img src="imgs/Frio-Tapa.png" alt="Tapa de Frío">
+        <span class="on">Frío</span>
+        <span class="og" style="color:#5ba8e0">Leer →</span>
+      </a>
+      <a class="ocard" href="pdf/guiso-entropico.pdf" target="_blank" rel="noopener" style="--ac:#cc5fd6">
+        <img src="imgs/GuisoEntropico-Tapa.png" alt="Tapa de Guiso Entrópico">
+        <span class="on">Guiso Entrópico</span>
+        <span class="og" style="color:#cc5fd6">Leer →</span>
+      </a>
+    </div>
+    <div class="social">
+      <p>Seguime para más</p>
+      <div class="social-links">
+        <a class="slink" href="https://instagram.com/peblix" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span></a>
+        <a class="slink" href="https://tiktok.com/@peblix" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M15 4v9.5a3.5 3.5 0 1 1-3-3.46"/><path d="M15 4a4.5 4.5 0 0 0 4.5 4.5"/></svg><span>TikTok</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><a href="index.html">← Volver al inicio</a></div>
+  <script>
+  (function(){
+    var pdf="pdf/caja-negra.pdf", n=5, el=document.getElementById('cd');
+    var iv=setInterval(function(){
+      n--; if(el) el.textContent=n;
+      if(n<=0){ clearInterval(iv);
+        var w=window.open(pdf,'_blank');
+        if(!w){ var b=document.getElementById('blocked'); if(b) b.hidden=false; }
+      }
+    },1000);
+  })();
+  </script>
+</body></html>

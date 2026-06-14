@@ -8,6 +8,7 @@
 <meta name="author" content="Pablo Cristín">
 <meta name="theme-color" content="#0a0a0a">
 <link rel="canonical" href="https://www.pablocristin.com.ar/">
+<link rel="preload" as="image" href="imgs/retrato-inicio.jpg" fetchpriority="high">
 <link rel="icon" type="image/svg+xml" href="imgs/favicon.svg">
 
 <!-- Open Graph · cómo se ve el link al compartir (WhatsApp, Facebook, Instagram, LinkedIn) -->
@@ -766,7 +767,7 @@
     <div class="wrap">
       <span class="kicker" style="--ac:var(--violeta)">Toda mi poesía</span>
       <h2>Toda mi<br>poesía</h2>
-      <p class="sub">// 446 poemas reunidos en cinco movimientos. Un mapa para perderse adentro.</p>
+      <p class="sub">// 434 poemas reunidos en cinco movimientos. Un mapa para perderse adentro.</p>
       <div class="poesia-actions">
         <a class="poesia-cta" href="poemas.html">
           <span class="pc-ico" aria-hidden="true">✦</span>
@@ -862,7 +863,7 @@
       <span class="kicker" style="--ac:var(--celeste)">Prensa</span>
       <h2>Lo que<br>dicen</h2>
       <p class="sub">// Material para prensa y notas en distintos medios.</p>
-      <a class="press-kit" href="#" target="_blank" rel="noopener"><span class="pk-arrow">↓</span> Descargar kit de prensa</a>
+      <a class="press-kit" href="prensa/kit-de-prensa.pdf" target="_blank" rel="noopener" title="Kit de prensa — bio, fotos en alta y tapas"><span class="pk-arrow">↓</span> Descargar kit de prensa</a>
       <div class="press-head"><span class="kicker-sm" style="color:var(--celeste)">Notas en medios</span></div>
       <div class="press-list" id="prensaLinks"></div>
     </div>
@@ -969,7 +970,7 @@
 </div>
 
 <!-- ===== POEMARIO · TOMA DE PANTALLA (captura de mail) ===== -->
-<div class="takeover" id="ptakeover" aria-hidden="true">
+<div class="takeover" id="ptakeover" role="dialog" aria-modal="true" aria-labelledby="p-title" aria-hidden="true">
   <div class="tk-lines" id="pBg" aria-hidden="true">
     <div class="cv-sky">
       <svg class="cv-star" style="top:14%;left:18%;width:26px" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
@@ -985,7 +986,7 @@
   <button class="tk-close" id="pClose" aria-label="Cerrar">✕</button>
   <div class="tk-inner">
     <div class="tk-stage">
-      <img class="tk-cover" id="pCover" alt="Tapa del poemario">
+      <img class="tk-cover" id="pCover" alt="Tapa del poemario" decoding="async">
       <span id="pCoverLab" hidden></span>
       <div class="tk-head">
         <span class="tk-kicker">Poemario gratuito · PDF</span>
@@ -1246,6 +1247,7 @@
     const btn=document.getElementById('pSubmit');btn.disabled=false;btn.textContent='Enviámelo →';
     pbd.classList.add('open');pbd.setAttribute('aria-hidden','false');
     scroller.classList.add('locked');
+    try{history.replaceState(null,'','#'+id);}catch(e){}
     setTimeout(()=>inp.focus(),60);
   };
   function closePoem(){
@@ -1253,6 +1255,7 @@
     scroller.classList.remove('locked');
     // Limpiar el data-poem al cerrar (con delay para que se vea la transición de salida)
     setTimeout(()=>{ if(!pbd.classList.contains('open')) pbd.removeAttribute('data-poem'); },400);
+    try{ if(poemarios[(location.hash||'').replace('#','')]) history.replaceState(null,'',location.pathname+location.search); }catch(e){}
     if(pLast)pLast.focus();
   }
   document.getElementById('pClose').addEventListener('click',closePoem);
@@ -1326,6 +1329,27 @@
       contactForm.reset();
     });
   }
+</script>
+<script>
+/* Deep-links: abrir un poemario o saltar a una sección según el # de la URL.
+   Ej: pablocristin.com.ar/#cvantico  ·  /#frio  ·  /#guiso  ·  /#cajanegra  ·  /#s-prensa */
+(function(){
+  var POEMARIOS=['cvantico','frio','guiso','cajanegra'];
+  function handleHash(){
+    var h=(location.hash||'').replace('#','').trim();
+    if(!h) return;
+    if(POEMARIOS.indexOf(h)>=0){ if(window.openPoem){ window.openPoem(h); } return; }
+    var sec=document.getElementById(h);
+    if(sec){
+      var tk=document.getElementById('ptakeover');
+      if(tk && tk.classList.contains('open')){ var c=document.getElementById('pClose'); if(c) c.click(); }
+      setTimeout(function(){ sec.scrollIntoView({behavior:'smooth'}); }, 160);
+    }
+  }
+  if(document.readyState==='loading'){ window.addEventListener('DOMContentLoaded',handleHash); }
+  else { handleHash(); }
+  window.addEventListener('hashchange', handleHash);
+})();
 </script>
 </body>
 </html>
