@@ -509,6 +509,26 @@
   .book-data dt{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#888}
   .book-data dd{font-family:var(--mono);font-size:.92rem;color:var(--paper);margin-top:4px}
   .book-buy{display:inline-block;background:var(--bookc);color:#0a0a0a;font-family:var(--mono);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:13px 24px;text-decoration:none;transition:background .2s}
+  .chapter-dl{margin-top:16px}
+  .chapter-dl .book-chapter{display:inline-flex;align-items:center;gap:9px;cursor:pointer;
+    background:transparent;color:var(--bookc);border:1.5px solid var(--bookc);
+    font-family:var(--mono);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+    padding:11px 22px;list-style:none;transition:background .2s,color .2s;user-select:none}
+  .chapter-dl .book-chapter::-webkit-details-marker{display:none}
+  .chapter-dl .book-chapter::after{content:"▾";font-size:.78em;transition:transform .25s}
+  .chapter-dl[open] .book-chapter::after{transform:rotate(180deg)}
+  .chapter-dl .book-chapter:hover,.chapter-dl[open] .book-chapter{background:var(--bookc);color:#0a0a0a}
+  .chapter-fmts{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;animation:chapfade .25s ease}
+  @keyframes chapfade{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+  .chapter-fmt{display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+    background:rgba(255,255,255,.04);color:#f4f4f0;border:1px solid rgba(255,255,255,.22);
+    font-family:var(--mono);font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;
+    padding:11px 20px;transition:border-color .2s,color .2s,background .2s}
+  .chapter-fmt:hover{border-color:var(--bookc);color:var(--bookc);background:rgba(255,255,255,.02)}
+  .chapter-fmt .cf-ext{opacity:.5;font-weight:400}
+  .chapter-count{margin-top:11px;font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:#8a8a8a}
+  .chapter-count b{color:var(--bookc);font-weight:700}
+  @media (prefers-reduced-motion:reduce){.chapter-dl .book-chapter::after,.chapter-fmts{transition:none;animation:none}}
   .book-buy:hover{background:var(--paper)}
   .book-gallery-head{display:flex;align-items:baseline;gap:14px;margin-top:42px;flex-wrap:wrap}
   .kicker-sm{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bookc)}
@@ -741,6 +761,14 @@
           <div class="book-actions">
             <a class="book-buy" href="https://petricorediciones.empretienda.com.ar/fisico/otras-formas-de-perder-el-equilibrio-de-pablo-cristin" target="_blank" rel="noopener">Comprar el libro →</a>
           </div>
+          <details class="chapter-dl">
+            <summary class="book-chapter">↓ Descargá un capítulo gratis</summary>
+            <div class="chapter-fmts">
+              <a class="chapter-fmt" href="pdf/otras-formas-capitulo-peblix.pdf" target="_blank" rel="noopener">↓ PDF <span class="cf-ext">.pdf</span></a>
+              <a class="chapter-fmt" href="epub/otras-formas-capitulo-peblix.epub" download>↓ EPUB <span class="cf-ext">.epub</span></a>
+            </div>
+          </details>
+          <p class="chapter-count" id="chapCount" hidden></p>
         </div>
         <div class="book-cover ph ratio-cover tilt-r" data-image="imgs/portada-otras.jpg"><div class="pl"><span class="ico"></span><span class="lab">Portada</span><span class="dim">Otras Formas… · 1000×1500</span></div></div>
       </div>
@@ -1431,6 +1459,25 @@
     });},{root:scroller||null,threshold:.5});
     panels.forEach(function(s){io.observe(s);});
   }
+})();
+</script>
+<script>
+/* Contador de descargas del capítulo gratis.
+   Pegá abajo la URL de tu Worker contador de Cloudflare. Mientras esté vacío,
+   el contador simplemente no se muestra (no rompe nada). */
+(function(){
+  var COUNTER_URL=""; /* ← pegá acá la URL de tu Worker, ej: https://contador.tu-subdominio.workers.dev */
+  var el=document.getElementById('chapCount');
+  if(!el||!COUNTER_URL) return;
+  var counted=false;
+  function render(n){ if(typeof n==='number' && n>0){ el.innerHTML='✦ <b>'+n.toLocaleString('es-AR')+'</b> descargas'; el.hidden=false; } }
+  fetch(COUNTER_URL).then(function(r){return r.json();}).then(function(d){ if(d) render(d.count); }).catch(function(){});
+  document.querySelectorAll('.chapter-fmt').forEach(function(a){
+    a.addEventListener('click',function(){
+      if(counted) return; counted=true;
+      fetch(COUNTER_URL,{method:'POST'}).then(function(r){return r.json();}).then(function(d){ if(d) render(d.count); }).catch(function(){});
+    });
+  });
 })();
 </script>
 </body>
