@@ -1351,5 +1351,87 @@
   window.addEventListener('hashchange', handleHash);
 })();
 </script>
+<!-- Menú flotante de secciones -->
+<style>
+  .floatmenu{position:fixed;top:16px;left:16px;z-index:70;font-family:var(--mono,"Space Mono",monospace)}
+  .fm-btn{display:inline-flex;align-items:center;gap:10px;background:rgba(10,10,10,.72);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#f4f4f0;
+    border:1px solid rgba(155,48,255,.55);border-radius:40px;padding:10px 16px 10px 13px;
+    font-family:inherit;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+    cursor:pointer;transition:border-color .2s,box-shadow .2s,background .2s}
+  .fm-btn:hover{border-color:#9b30ff;background:rgba(10,10,10,.85);
+    box-shadow:0 0 0 1px rgba(155,48,255,.4),0 0 18px rgba(155,48,255,.35)}
+  .fm-ico{position:relative;width:18px;height:12px;display:inline-block;flex:0 0 auto}
+  .fm-ico span{position:absolute;left:0;width:100%;height:2px;background:currentColor;border-radius:2px;
+    transition:transform .28s ease,opacity .2s ease}
+  .fm-ico span:nth-child(1){top:0}.fm-ico span:nth-child(2){top:5px}.fm-ico span:nth-child(3){top:10px}
+  .floatmenu.open .fm-ico span:nth-child(1){transform:translateY(5px) rotate(45deg)}
+  .floatmenu.open .fm-ico span:nth-child(2){opacity:0}
+  .floatmenu.open .fm-ico span:nth-child(3){transform:translateY(-5px) rotate(-45deg)}
+  .fm-txt{font-weight:700}
+  .fm-panel{position:absolute;top:calc(100% + 10px);left:0;min-width:248px;
+    background:rgba(10,10,10,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    border:1px solid rgba(155,48,255,.5);border-radius:14px;padding:8px;
+    max-height:min(72vh,580px);overflow-y:auto;box-shadow:0 20px 50px rgba(0,0,0,.6);
+    opacity:0;transform:translateY(-8px) scale(.98);transform-origin:top left;
+    transition:opacity .22s ease,transform .22s ease;pointer-events:none}
+  .floatmenu.open .fm-panel{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+  .fm-head{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:#7a7a7a;
+    padding:6px 14px 10px}
+  .fm-item{display:flex;align-items:center;gap:14px;padding:11px 14px;text-decoration:none;
+    color:#cfcfcf;border-radius:9px;border-left:2px solid transparent;
+    transition:background .18s,color .18s,border-color .18s,padding-left .18s}
+  .fm-item .fm-n{font-family:var(--mono,monospace);font-size:.64rem;letter-spacing:.1em;
+    color:var(--fmc,#9b30ff);opacity:.85;min-width:20px}
+  .fm-item .fm-name{font-family:var(--body,"Public Sans",sans-serif);font-size:.98rem;font-weight:500}
+  .fm-item:hover,.fm-item:focus-visible{background:rgba(255,255,255,.05);color:#fff;
+    border-left-color:var(--fmc,#9b30ff);padding-left:18px;outline:none}
+  .fm-item.cur{color:#fff;background:color-mix(in srgb,var(--fmc,#9b30ff) 16%,transparent);
+    border-left-color:var(--fmc,#9b30ff)}
+  .fm-item.cur .fm-n{opacity:1}
+  @media (max-width:560px){.fm-panel{min-width:min(82vw,300px)}.fm-txt{display:none}.fm-btn{padding:11px 13px}}
+  @media (prefers-reduced-motion:reduce){.fm-btn,.fm-ico span,.fm-panel,.fm-item{transition:none}}
+</style>
+<div class="floatmenu" id="floatmenu">
+  <button class="fm-btn" id="fmBtn" aria-expanded="false" aria-controls="fmPanel" aria-label="Abrir menú de secciones">
+    <span class="fm-ico" aria-hidden="true"><span></span><span></span><span></span></span>
+    <span class="fm-txt">Secciones</span>
+  </button>
+  <nav class="fm-panel" id="fmPanel" aria-label="Ir a una sección">
+    <div class="fm-head">Ir a una sección</div>
+  </nav>
+</div>
+<script>
+(function(){
+  var palette=['#9b30ff','#ff1f8e','#00e0ff','#c6ff00','#ffe500','#00e0ff'];
+  var nicer={'Sobre':'Sobre mí','Visual':'Lo que dibujo','Puro Verso':'Radio · Puro Verso','Poesía libre':'Poemarios gratis'};
+  var fm=document.getElementById('floatmenu'), btn=document.getElementById('fmBtn'), panel=document.getElementById('fmPanel');
+  var panels=[].slice.call(document.querySelectorAll('.panel'));
+  var items=[];
+  panels.forEach(function(s,i){
+    var a=document.createElement('a');
+    a.className='fm-item'; a.href='#'+s.id; a.style.setProperty('--fmc',palette[i%palette.length]);
+    var name=nicer[s.dataset.name]||s.dataset.name||('Sección '+(i+1));
+    a.innerHTML='<span class="fm-n">'+String(i+1).padStart(2,'0')+'</span><span class="fm-name"></span>';
+    a.querySelector('.fm-name').textContent=name;
+    a.addEventListener('click',function(e){ e.preventDefault(); s.scrollIntoView({behavior:'smooth'}); close(); });
+    panel.appendChild(a); items.push(a);
+  });
+  function open(){ fm.classList.add('open'); btn.setAttribute('aria-expanded','true'); if('inert' in panel) panel.inert=false; var f=items[0]; if(f) setTimeout(function(){f.focus();},60); }
+  function close(){ fm.classList.remove('open'); btn.setAttribute('aria-expanded','false'); if('inert' in panel) panel.inert=true; }
+  if('inert' in panel) panel.inert=true;
+  btn.addEventListener('click',function(e){ e.stopPropagation(); fm.classList.contains('open')?close():open(); });
+  document.addEventListener('click',function(e){ if(fm.classList.contains('open') && !fm.contains(e.target)) close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && fm.classList.contains('open')){ close(); btn.focus(); } });
+  var scroller=document.getElementById('scroller');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){var i=panels.indexOf(e.target);
+        items.forEach(function(d){d.classList.remove('cur')}); if(items[i])items[i].classList.add('cur');}
+    });},{root:scroller||null,threshold:.5});
+    panels.forEach(function(s){io.observe(s);});
+  }
+})();
+</script>
 </body>
 </html>
