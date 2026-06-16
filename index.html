@@ -456,6 +456,12 @@
   .tk-close{position:fixed;top:18px;right:18px;z-index:120;width:48px;height:48px;background:var(--pc, var(--lima));
     color:#0a0a0a;border:none;font-family:var(--mono);font-size:20px;font-weight:700;cursor:pointer}
   .tk-close:hover{background:var(--paper)}
+  .tk-back{position:fixed;top:18px;left:18px;z-index:120;display:inline-flex;align-items:center;gap:8px;
+    background:rgba(10,10,10,.6);color:var(--paper);border:1.5px solid var(--pc,var(--lima));border-radius:40px;
+    padding:10px 18px;font-family:var(--mono);font-size:.8rem;font-weight:700;letter-spacing:.06em;cursor:pointer;
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .2s,color .2s}
+  .tk-back:hover{background:var(--pc,var(--lima));color:#0a0a0a}
+  .tk-close{display:none}
   .tk-inner{position:relative;z-index:2;width:100%;max-width:720px;margin:0 auto;min-height:100%;
     padding:84px 26px 64px;box-sizing:border-box}
   .tk-stage{position:relative;display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:26px}
@@ -623,18 +629,40 @@
   }
 
   /* ===== TODA MI POESÍA ===== */
-  #s-poesia .poesia-lines{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-  /* renglones que fluyen hacia arriba, como versos pasando */
-  #s-poesia .poesia-lines::before{content:"";position:absolute;inset:-25%;
-    background:repeating-linear-gradient(0deg,transparent 0 44px,rgba(155,48,255,.10) 44px 45px,transparent 45px 90px);
-    animation:versos-flow 20s linear infinite}
-  @keyframes versos-flow{from{transform:translateY(0)}to{transform:translateY(-90px)}}
-  /* versos sueltos que se escriben y se borran */
-  #s-poesia .verso{position:absolute;height:2px;background:var(--violeta);transform:scaleX(0);transform-origin:left center;
-    box-shadow:0 0 10px rgba(155,48,255,.5);animation:verso-write 7s ease-in-out infinite}
-  @keyframes verso-write{0%{transform:scaleX(0);opacity:0}
-    14%{opacity:.85}45%{transform:scaleX(1);opacity:.85}
-    62%{transform:scaleX(1);opacity:.85}100%{transform:scaleX(0);opacity:0;transform-origin:right center}}
+  /* ===== FONDO SURREALISTA · Toda mi poesía ===== */
+  #s-poesia .poesia-lines{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;animation:sr-hue 26s linear infinite}
+  @keyframes sr-hue{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(360deg)}}
+  /* ojo flotante que parpadea */
+  #s-poesia .sr-eye{position:absolute;top:13%;right:11%;width:clamp(130px,16vw,215px);height:auto;color:var(--violeta);opacity:.5;animation:sr-eyefloat 17s ease-in-out infinite}
+  #s-poesia .sr-lashes{transform-origin:100px 100px;animation:sr-spin 44s linear infinite}
+  #s-poesia .sr-lid{transform-origin:100px 100px;animation:sr-blink 6.5s ease-in-out infinite}
+  #s-poesia .sr-iris{transform-origin:100px 100px;animation:sr-pupil 5s ease-in-out infinite}
+  @keyframes sr-eyefloat{0%,100%{transform:translate(0,0) rotate(-4deg)}50%{transform:translate(-24px,20px) rotate(4deg)}}
+  @keyframes sr-spin{to{transform:rotate(360deg)}}
+  @keyframes sr-blink{0%,90%,100%{transform:scaleY(1)}95%{transform:scaleY(.07)}}
+  @keyframes sr-pupil{0%,100%{transform:scale(1)}50%{transform:scale(1.4)}}
+  /* espiral hipnótica */
+  #s-poesia .sr-spiral{position:absolute;bottom:-8%;left:-5%;width:clamp(180px,24vw,350px);height:auto;color:var(--celeste);opacity:.26;animation:sr-spin 34s linear infinite reverse}
+  /* anillos que se deforman, como derritiéndose */
+  #s-poesia .sr-blob{position:absolute;border:1.5px solid currentColor;background:transparent;mix-blend-mode:screen;opacity:.5;will-change:border-radius,transform;animation:sr-morph 15s ease-in-out infinite,sr-drift 25s ease-in-out infinite}
+  #s-poesia .sr-blob.b1{top:53%;left:17%;width:210px;height:210px;color:var(--fucsia)}
+  #s-poesia .sr-blob.b2{top:7%;left:33%;width:130px;height:130px;color:var(--celeste);animation-delay:-4s,-7s}
+  #s-poesia .sr-blob.b3{top:64%;right:15%;width:170px;height:170px;color:var(--lima);animation-delay:-8s,-3s}
+  @keyframes sr-morph{0%,100%{border-radius:42% 58% 63% 37% / 47% 42% 58% 53%}33%{border-radius:67% 33% 40% 60% / 38% 64% 36% 62%}66%{border-radius:34% 66% 57% 43% / 64% 35% 65% 36%}}
+  @keyframes sr-drift{0%,100%{transform:translate(0,0) rotate(0) scale(1)}50%{transform:translate(36px,-32px) rotate(48deg) scale(1.12)}}
+  /* formas geométricas que tumbean */
+  #s-poesia .sr-shape{position:absolute;height:auto;opacity:.5;will-change:transform;animation:sr-tumble 13s ease-in-out infinite}
+  #s-poesia .sr-shape.h1{top:25%;left:13%;width:34px;color:var(--celeste);animation-delay:-2s}
+  #s-poesia .sr-shape.h2{top:80%;left:42%;width:26px;color:var(--fucsia);animation-delay:-5s}
+  #s-poesia .sr-shape.h3{top:38%;right:26%;width:40px;color:var(--amarillo);animation-delay:-8s}
+  #s-poesia .sr-shape.h4{top:87%;right:32%;width:22px;color:var(--violeta);animation-delay:-3.5s}
+  @keyframes sr-tumble{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-32px) rotate(180deg)}100%{transform:translateY(0) rotate(360deg)}}
+  /* onda líquida que se derrite */
+  #s-poesia .sr-wave{position:absolute;left:0;bottom:23%;width:1600px;max-width:none;height:90px;color:var(--violeta);opacity:.28;animation:sr-flow 14s linear infinite}
+  @keyframes sr-flow{from{transform:translateX(0)}to{transform:translateX(-400px)}}
+  /* partículas a la deriva */
+  #s-poesia .sr-dot{position:absolute;width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor;opacity:.55;animation:sr-float 9s ease-in-out infinite}
+  @keyframes sr-float{0%,100%{transform:translate(0,0);opacity:.2}50%{transform:translate(14px,-28px);opacity:.8}}
   #s-poesia .wrap{position:relative;z-index:5}
   .poesia-cta{display:inline-flex;align-items:center;gap:14px;margin-top:30px;
     background:none;border:1.5px solid var(--violeta);color:var(--paper);
@@ -645,7 +673,7 @@
   .poesia-actions .poesia-cta{margin-top:0}
   .poesia-cta.sub{--violeta:#ff6719}
   .poesia-cta .pc-logo{width:17px;height:17px;flex:0 0 17px;color:var(--violeta);transition:color .25s}
-  .poesia-cta.sub:hover .pc-logo{color:#0a0a0a}
+  .poesia-cta:hover .pc-logo{color:#0a0a0a}
   .poesia-cta::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--violeta);
     transform:translateX(-101%);transition:transform .3s ease}
   .poesia-cta:hover{color:#0a0a0a;border-color:var(--violeta)}
@@ -655,9 +683,20 @@
   .poesia-cta .pc-arrow{transition:transform .25s}
   .poesia-cta:hover .pc-arrow{transform:translateX(5px)}
   @keyframes pc-twinkle{0%,100%{opacity:.5;transform:scale(.9) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(20deg)}}
+  /* botón principal grande y resaltado */
+  .poesia-cta.cta-main{font-size:1.18rem;padding:22px 40px;gap:16px;color:#0a0a0a;font-weight:800;
+    border-color:transparent;background:linear-gradient(100deg,#9b30ff,#ff1f8e);
+    box-shadow:0 8px 28px rgba(155,48,255,.45);transition:transform .25s ease;
+    animation:cta-glow 2.6s ease-in-out infinite}
+  .poesia-cta.cta-main::before{display:none}
+  .poesia-cta.cta-main .pc-ico,.poesia-cta.cta-main .pc-arrow{color:#0a0a0a}
+  .poesia-cta.cta-main:hover{transform:translateY(-3px) scale(1.03)}
+  .poesia-cta.cta-main:hover .pc-arrow{transform:translateX(6px)}
+  @keyframes cta-glow{0%,100%{box-shadow:0 8px 26px rgba(155,48,255,.4)}50%{box-shadow:0 12px 46px rgba(255,31,142,.6)}}
+  /* botón de Instagram "Poesía casi diaria" */
+  .poesia-cta.sub-ig{--violeta:#ff1f8e}
   @media (prefers-reduced-motion:reduce){
-    #s-poesia .poesia-lines::before,#s-poesia .verso,.poesia-cta .pc-ico{animation:none}
-    #s-poesia .verso{transform:scaleX(1);opacity:.5}
+    #s-poesia .poesia-lines,#s-poesia .sr-eye,#s-poesia .sr-lashes,#s-poesia .sr-lid,#s-poesia .sr-iris,#s-poesia .sr-spiral,#s-poesia .sr-blob,#s-poesia .sr-shape,#s-poesia .sr-wave,#s-poesia .sr-dot,.poesia-cta .pc-ico,.poesia-cta.cta-main{animation:none}
   }
 </style>
 </head>
@@ -784,34 +823,52 @@
   <section class="panel bg bg-diag tall" id="s-poesia" data-name="Toda mi poesía" style="background:#0a0a0a;--ac:var(--violeta)">
     <span class="num"></span>
     <div class="poesia-lines" aria-hidden="true">
-      <span class="verso" style="top:16%;left:7%;width:180px"></span>
-      <span class="verso" style="top:24%;left:11%;width:120px;animation-delay:-1.2s"></span>
-      <span class="verso" style="top:33%;left:7%;width:240px;animation-delay:-2.4s"></span>
-      <span class="verso" style="top:62%;right:10%;width:160px;animation-delay:-0.6s"></span>
-      <span class="verso" style="top:70%;right:14%;width:220px;animation-delay:-1.8s"></span>
-      <span class="verso" style="top:79%;right:9%;width:110px;animation-delay:-3s"></span>
-      <span class="verso" style="top:46%;left:46%;width:90px;animation-delay:-2.1s"></span>
+      <svg class="sr-spiral" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M104.0 100.0 L104.7 100.9 L105.2 101.9 L105.4 103.2 L105.3 104.6 L104.8 106.1 L104.0 107.5 L102.8 108.8 L101.3 110.0 L99.5 110.8 L97.4 111.3 L95.1 111.3 L92.7 110.9 L90.4 109.9 L88.1 108.5 L86.1 106.6 L84.5 104.2 L83.2 101.4 L82.5 98.3 L82.3 95.0 L82.9 91.5 L84.0 88.2 L85.9 84.9 L88.4 82.0 L91.5 79.5 L95.2 77.6 L99.2 76.4 L103.6 75.9 L108.1 76.2 L112.6 77.3 L116.9 79.4 L120.9 82.3 L124.4 85.9 L127.3 90.3 L129.3 95.2 L130.5 100.5 L130.6 106.1 L129.7 111.8 L127.8 117.3 L124.8 122.5 L120.8 127.2 L116.0 131.1 L110.4 134.2 L104.2 136.3 L97.5 137.2 L90.7 136.9 L84.0 135.3 L77.5 132.5 L71.5 128.5 L66.2 123.3 L61.9 117.2 L58.7 110.3 L56.8 102.8 L56.2 94.9 L57.1 87.0 L59.5 79.1 L63.3 71.8 L68.4 65.1 L74.8 59.3 L82.2 54.8 L90.4 51.6 L99.2 49.9 L108.3 49.8 L117.4 51.4 L126.2 54.7 L134.4 59.5 L141.7 65.8 L147.8 73.5 L152.5 82.2 L155.6 91.8 L156.9 101.9 L156.4 112.2 L154.0 122.4 L149.7 132.1 L143.7 141.0 L136.1 148.8 L127.1 155.1 L117.0 159.8 L106.1 162.7 L94.7 163.5 L83.2 162.3 L72.0 158.9 L61.5 153.6 L52.0 146.4 L43.8 137.4 L37.3 127.1 L32.8 115.6 L30.3 103.3 L30.1 90.7 L32.2 78.1 L36.5 66.0 L43.0 54.7 L51.6 44.6 L61.9 36.2 L73.6 29.7 L86.5 25.4 L100.1 23.4 L113.9 23.9 L127.6 27.0 L140.6 32.4 L152.6 40.2 L163.0 50.1 L171.6 61.9 L178.0 75.1 L181.9 89.3 L183.3 104.2 L181.9 119.2 L177.8 133.9 L171.1 147.7 L162.0 160.2 L150.7 170.9 L137.5 179.5 L122.8 185.7 L107.2 189.1 L91.0 189.7 L74.9 187.4"/></svg>
+      <svg class="sr-eye" viewBox="0 0 200 200" fill="none" stroke="currentColor">
+        <g class="sr-lashes" stroke-width="2"><line x1="174.0" y1="100.0" x2="196.0" y2="100.0"/><line x1="164.1" y1="137.0" x2="183.1" y2="148.0"/><line x1="137.0" y1="164.1" x2="148.0" y2="183.1"/><line x1="100.0" y1="174.0" x2="100.0" y2="196.0"/><line x1="63.0" y1="164.1" x2="52.0" y2="183.1"/><line x1="35.9" y1="137.0" x2="16.9" y2="148.0"/><line x1="26.0" y1="100.0" x2="4.0" y2="100.0"/><line x1="35.9" y1="63.0" x2="16.9" y2="52.0"/><line x1="63.0" y1="35.9" x2="52.0" y2="16.9"/><line x1="100.0" y1="26.0" x2="100.0" y2="4.0"/><line x1="137.0" y1="35.9" x2="148.0" y2="16.9"/><line x1="164.1" y1="63.0" x2="183.1" y2="52.0"/></g>
+        <g class="sr-lid">
+          <path d="M28 100 Q100 48 172 100 Q100 152 28 100 Z" stroke-width="2.5"/>
+          <circle class="sr-iris" cx="100" cy="100" r="27" stroke-width="2"/>
+          <circle cx="100" cy="100" r="9" fill="currentColor" stroke="none"/>
+        </g>
+      </svg>
+      <span class="sr-blob b1"></span>
+      <span class="sr-blob b2"></span>
+      <span class="sr-blob b3"></span>
+      <svg class="sr-shape h1" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2"><polygon points="20,4 36,34 4,34"/></svg>
+      <svg class="sr-shape h2" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="28" height="28"/></svg>
+      <svg class="sr-shape h3" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2"><polygon points="20,3 34,11 34,29 20,37 6,29 6,11"/></svg>
+      <svg class="sr-shape h4" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2"><polygon points="20,4 36,20 20,36 4,20"/></svg>
+      <svg class="sr-wave" viewBox="0 0 1600 120" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="2"><path d="M0 60.0 L20 68.0 L40 75.3 L60 81.0 L80 84.7 L100 86.0 L120 84.7 L140 81.0 L160 75.3 L180 68.0 L200 60.0 L220 52.0 L240 44.7 L260 39.0 L280 35.3 L300 34.0 L320 35.3 L340 39.0 L360 44.7 L380 52.0 L400 60.0 L420 68.0 L440 75.3 L460 81.0 L480 84.7 L500 86.0 L520 84.7 L540 81.0 L560 75.3 L580 68.0 L600 60.0 L620 52.0 L640 44.7 L660 39.0 L680 35.3 L700 34.0 L720 35.3 L740 39.0 L760 44.7 L780 52.0 L800 60.0 L820 68.0 L840 75.3 L860 81.0 L880 84.7 L900 86.0 L920 84.7 L940 81.0 L960 75.3 L980 68.0 L1000 60.0 L1020 52.0 L1040 44.7 L1060 39.0 L1080 35.3 L1100 34.0 L1120 35.3 L1140 39.0 L1160 44.7 L1180 52.0 L1200 60.0 L1220 68.0 L1240 75.3 L1260 81.0 L1280 84.7 L1300 86.0 L1320 84.7 L1340 81.0 L1360 75.3 L1380 68.0 L1400 60.0 L1420 52.0 L1440 44.7 L1460 39.0 L1480 35.3 L1500 34.0 L1520 35.3 L1540 39.0 L1560 44.7 L1580 52.0 L1600 60.0"/></svg>
+      <span class="sr-dot" style="top:12%;left:20%;color:var(--celeste);animation-delay:0s"></span><span class="sr-dot" style="top:28%;left:72%;color:var(--fucsia);animation-delay:-2s"></span><span class="sr-dot" style="top:70%;left:30%;color:var(--lima);animation-delay:-4s"></span><span class="sr-dot" style="top:84%;left:60%;color:var(--violeta);animation-delay:-1s"></span><span class="sr-dot" style="top:52%;left:16%;color:var(--amarillo);animation-delay:-3s"></span><span class="sr-dot" style="top:60%;left:82%;color:var(--celeste);animation-delay:-5s"></span><span class="sr-dot" style="top:38%;left:44%;color:var(--fucsia);animation-delay:-1.5s"></span>
     </div>
     <div class="wrap">
       <span class="kicker" style="--ac:var(--violeta)">Toda mi poesía</span>
       <h2>Toda mi<br>poesía</h2>
       <p class="sub">// 434 poemas reunidos en cinco movimientos. Un mapa para perderse adentro.</p>
       <div class="poesia-actions">
-        <a class="poesia-cta" href="poemas.html">
+        <a class="poesia-cta cta-main" href="poemas.html">
           <span class="pc-ico" aria-hidden="true">✦</span>
           <span>Entrar al índice de poemas</span>
           <span class="pc-arrow" aria-hidden="true">→</span>
         </a>
         <a class="poesia-cta sub" href="https://substack.com/@peblix" target="_blank" rel="noopener">
           <svg class="pc-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3.4" width="18" height="3"/><rect x="3" y="9" width="18" height="3"/><path d="M3 14.6v6.9l9-4 9 4v-6.9z"/></svg>
-          <span>Seguime en Substack</span>
+          <span>Más poesía</span>
+          <span class="pc-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="poesia-cta sub-ig" href="https://www.instagram.com/poesiacasidiaria/" target="_blank" rel="noopener">
+          <svg class="pc-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.2"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" stroke="none"/></svg>
+          <span>Poesía casi diaria</span>
           <span class="pc-arrow" aria-hidden="true">→</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- 4 · VISUAL -->
+  <!-- 4 · VISUAL — OCULTA temporalmente (no se muestra en el sitio, pero queda guardada acá).
+       Para REACTIVARLA: borrá esta línea <template...> de abajo y su </template> de cierre. -->
+  <template id="seccion-lo-que-dibujo">
   <section class="panel bg bg-cross" id="s3" data-name="Visual" style="background:#0a0a0a">
     <span class="num">04 / 08</span>
     <svg class="accent" style="bottom:8%;right:-30px;width:220px" viewBox="0 0 160 160">
@@ -842,6 +899,7 @@
       <a class="pill" style="background:var(--celeste);color:#0a0a0a;text-decoration:none" href="https://instagram.com/peblix" target="_blank" rel="noopener">→ Ver en Instagram</a>
     </div>
   </section>
+  </template>
 
   <!-- 5 · PURO VERSO -->
   <section class="panel bg bg-rings tall" id="s4" data-name="Puro Verso" style="background:#0a0a0a">
@@ -908,8 +966,8 @@
     </div>
     <div class="wrap">
       <span class="kicker">Contacto</span>
-      <h2>Hablemos</h2>
-      <p class="sub">// Mail, redes y consultas. Escribime por donde quieras.</p>
+      <h2>Mantengamos la humanidad: Hablemos</h2>
+      <p class="sub">// Mail, redes y consultas.</p>
 
       <!-- Iconos de redes + email -->
       <div class="social-row">
@@ -951,7 +1009,7 @@
           <label for="cfMsg">Mensaje</label>
           <textarea id="cfMsg" rows="4" placeholder="Contame tu consulta…"></textarea>
         </div>
-        <button class="cf-submit" type="submit">Enviar consulta →</button>
+        <button class="cf-submit" type="submit">Enviar →</button>
         <p class="cf-msg" id="cfFeedback"></p>
       </form>
     </div>
@@ -966,7 +1024,7 @@
 
   <!-- Tortugas que sostienen la página (mito de la Tortuga Mundial) -->
   <div class="turtles" id="turtles" aria-hidden="true">
-    <p class="turtles-note">// más allá del mar, en el borde del mundo…</p>
+    <p class="turtles-note">// Más allá del final, al borde del mundo,</p>
     <!-- el disco del mundo descansa sobre los caparazones -->
     <div class="world-disc"></div>
     <div class="turtle-row">
@@ -974,7 +1032,7 @@
       <svg class="turtle" viewBox="0 0 150 130"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 64 Q75 6 126 64"/><path d="M30 64 Q75 92 120 64"/><line x1="52" y1="26" x2="52" y2="66"/><line x1="75" y1="14" x2="75" y2="70"/><line x1="98" y1="26" x2="98" y2="66"/><path class="t-head" d="M126 60 q18 -2 19 -24"/><circle class="t-eye" cx="145" cy="34" r="2.1" fill="currentColor" stroke="none"/><path class="t-leg" d="M40 78 l-5 34"/><path class="t-leg" d="M62 84 l-3 32"/><path class="t-leg" d="M90 84 l3 32"/><path class="t-leg" d="M112 78 l6 34"/><line x1="35" y1="112" x2="27" y2="112"/><line x1="59" y1="116" x2="51" y2="116"/><line x1="93" y1="116" x2="101" y2="116"/><line x1="118" y1="112" x2="126" y2="112"/></g></svg>
       <svg class="turtle" viewBox="0 0 150 130"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M24 64 Q75 6 126 64"/><path d="M30 64 Q75 92 120 64"/><line x1="52" y1="26" x2="52" y2="66"/><line x1="75" y1="14" x2="75" y2="70"/><line x1="98" y1="26" x2="98" y2="66"/><path class="t-head" d="M126 60 q18 -2 19 -24"/><circle class="t-eye" cx="145" cy="34" r="2.1" fill="currentColor" stroke="none"/><path class="t-leg" d="M40 78 l-5 34"/><path class="t-leg" d="M62 84 l-3 32"/><path class="t-leg" d="M90 84 l3 32"/><path class="t-leg" d="M112 78 l6 34"/><line x1="35" y1="112" x2="27" y2="112"/><line x1="59" y1="116" x2="51" y2="116"/><line x1="93" y1="116" x2="101" y2="116"/><line x1="118" y1="112" x2="126" y2="112"/></g></svg>
     </div>
-    <p class="turtles-foot">// y son tortugas hasta el fondo 🐢</p>
+    <p class="turtles-foot">// hay tortugas sosteniéndolo todo.</p>
   </div>
 
 </div>
@@ -1012,6 +1070,7 @@
     </div>
   </div>
   <button class="tk-close" id="pClose" aria-label="Cerrar">✕</button>
+  <button class="tk-back" id="pBack" aria-label="Volver">← Volver</button>
   <div class="tk-inner">
     <div class="tk-stage">
       <img class="tk-cover" id="pCover" alt="Tapa del poemario" decoding="async">
@@ -1026,10 +1085,10 @@
       <label class="plabel" for="pEmail">Dejame tu correo y te lo mando en PDF</label>
       <div class="frow">
         <input type="email" id="pEmail" class="pinput" placeholder="tu@correo.com" autocomplete="email">
-        <button class="psubmit" id="pSubmit">Enviámelo →</button>
+        <button class="psubmit" id="pSubmit">Lo quiero →</button>
       </div>
       <p class="pmsg" id="pMsg"></p>
-      <p class="pfine">Sin spam. Te escribo de vez en cuando con poemas y novedades, y te podés borrar cuando quieras.</p>
+      <p class="pfine">Libro gratis, de libre distribución :)</p>
     </div>
     <div id="pDone" class="tk-form" style="display:none">
       <div class="pdone-big">¡Listo!</div>
@@ -1272,7 +1331,7 @@
     document.getElementById('pDone').style.display='none';
     const inp=document.getElementById('pEmail');inp.value='';
     const msg=document.getElementById('pMsg');msg.textContent='';msg.className='pmsg';
-    const btn=document.getElementById('pSubmit');btn.disabled=false;btn.textContent='Enviámelo →';
+    const btn=document.getElementById('pSubmit');btn.disabled=false;btn.textContent='Lo quiero →';
     pbd.classList.add('open');pbd.setAttribute('aria-hidden','false');
     scroller.classList.add('locked');
     try{history.replaceState(null,'','#'+id);}catch(e){}
@@ -1287,6 +1346,7 @@
     if(pLast)pLast.focus();
   }
   document.getElementById('pClose').addEventListener('click',closePoem);
+  document.getElementById('pBack').addEventListener('click',closePoem);
   pbd.addEventListener('click',e=>{if(e.target===pbd)closePoem();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&pbd.classList.contains('open'))closePoem();});
   document.querySelectorAll('.poem .cover').forEach(c=>{
@@ -1308,11 +1368,12 @@
       }else{
         await new Promise(res=>setTimeout(res,700)); // modo demo (sin backend todavía)
       }
-      document.getElementById('pForm').style.display='none';
-      document.getElementById('pDone').style.display='';
-      document.getElementById('pDoneTxt').textContent='Te mandamos "'+p.name+'" a '+email+'. Revisá la casilla (y el spam, por las dudas). ¡Gracias por leerme!';
+      // Ir a la pantalla de agradecimiento (descarga el PDF a los 5 segundos)
+      const GRACIAS={cvantico:'gracias-cvantico.html',frio:'gracias-frio.html',guiso:'gracias-guiso.html',cajanegra:'gracias-cajanegra.html'};
+      window.location.href = GRACIAS[pCurrent] || 'gracias-pack.html';
+      return;
     }catch(err){
-      btn.disabled=false;btn.textContent='Enviámelo →';
+      btn.disabled=false;btn.textContent='Lo quiero →';
       msg.className='pmsg err';msg.textContent='Uy, algo falló. Probá de nuevo en un toque.';
     }
   }
@@ -1445,10 +1506,10 @@
     a.addEventListener('click',function(e){ e.preventDefault(); s.scrollIntoView({behavior:'smooth'}); close(); });
     panel.appendChild(a); items.push(a);
   });
-  function open(){ fm.classList.add('open'); btn.setAttribute('aria-expanded','true'); if('inert' in panel) panel.inert=false; var f=items[0]; if(f) setTimeout(function(){f.focus();},60); }
+  function open(focusFirst){ fm.classList.add('open'); btn.setAttribute('aria-expanded','true'); if('inert' in panel) panel.inert=false; if(focusFirst){ var f=items[0]; if(f) setTimeout(function(){f.focus();},60); } }
   function close(){ fm.classList.remove('open'); btn.setAttribute('aria-expanded','false'); if('inert' in panel) panel.inert=true; }
-  if('inert' in panel) panel.inert=true;
-  btn.addEventListener('click',function(e){ e.stopPropagation(); fm.classList.contains('open')?close():open(); });
+  open(false); // aparece desplegado por defecto (sin robar el foco); el usuario puede ocultarlo
+  btn.addEventListener('click',function(e){ e.stopPropagation(); fm.classList.contains('open')?close():open(true); });
   document.addEventListener('click',function(e){ if(fm.classList.contains('open') && !fm.contains(e.target)) close(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape' && fm.classList.contains('open')){ close(); btn.focus(); } });
   var scroller=document.getElementById('scroller');
