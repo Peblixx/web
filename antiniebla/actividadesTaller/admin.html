@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- =====================================================================
+     ANTINIEBLA · TALLER · PANEL DE CONSIGNAS
+
+     Para Pablo y nadie más. Desde acá se cargan y programan las consignas
+     y se moderan los textos. No lleva links desde ningún lado y le dice a
+     Google que no la indexe; igual, sin la clave no hace nada: la clave
+     la chequea el Worker, no esta página.
+
+     CÓMO SE USA
+     · La clave es el secreto CLAVE_ADMIN del Worker. Se recuerda solo
+       mientras la pestaña esté abierta (sessionStorage), a propósito: en
+       una compu ajena no queda guardada.
+     · Programar = cargar con fecha futura. El Worker la muestra recién
+       cuando llega ese día, a las 00:00 de Argentina.
+     · Guardar sobre una fecha que ya tiene consigna, la reemplaza.
+     · «Cargar en tanda» sirve para programar un mes de una sentada. El
+       formato está explicado al lado del campo.
+
+     Sin fondo animado ni tarjeta de libro: es una herramienta, no una
+     página del sitio. Mantiene la paleta y las tipografías para que no
+     parezca de otro lado, y nada más.
+     ===================================================================== -->
+
+<title>Panel de consignas · AntiNiebla</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Space+Mono:wght@400;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --negro:#0a0a0a; --carbon:#141416; --tinta:#2b2b30;
+    --fucsia:#ff1f8e; --celeste:#00e0ff; --azul:#2b4bff;
+    --lima:#c6ff00; --amarillo:#ffe500; --violeta:#9b30ff; --menta:#4dffc3;
+    --hueso:#f4f4f0; --gris:#a8a8a2; --gris-2:#8d8d86;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;
+    --serif:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--negro);color:var(--hueso)}
+  body{font-family:var(--serif);min-height:100dvh;
+    background:repeating-linear-gradient(48deg,#121212 0 7px,#0a0a0a 7px 14px) fixed}
+  .wrap{max-width:900px;margin:0 auto;padding:48px 20px 80px}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.24em;text-transform:uppercase;color:var(--fucsia);margin:0 0 14px}
+  .kicker a{color:inherit;text-decoration:none}
+  h1{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(2.2rem,9vw,4rem);
+    line-height:.86;letter-spacing:-.045em;margin:0 0 28px}
+  h1 span{display:block;color:var(--fucsia)}
+  h2{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.03em;
+    font-size:clamp(1.4rem,5.4vw,2rem);line-height:.96;margin:0 0 18px;color:var(--c,var(--hueso))}
+
+  .tarjeta{position:relative;overflow:hidden;border-radius:6px;margin:22px 0 0;padding:24px 20px 22px;
+    background:linear-gradient(165deg,#17171b 0%,#0f0f11 70%);border:1px solid var(--tinta);border-top:3px solid var(--c)}
+  .tarjeta::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background:radial-gradient(ellipse at 10% -24%, color-mix(in srgb,var(--c) 24%,transparent), transparent 60%)}
+  .tarjeta > *{position:relative;z-index:1}
+  @media (min-width:640px){ .tarjeta{padding:30px 30px 26px} }
+
+  label.rot{display:block;font-weight:600;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gris-2);margin:16px 0 7px}
+  label.rot small{text-transform:none;letter-spacing:0;font-weight:500;font-size:13px}
+  input,textarea{width:100%;font-family:var(--mono);font-size:14px;padding:13px 14px;background:#08080a;
+    border:1px solid var(--tinta);color:var(--hueso);border-radius:2px;outline:none}
+  textarea{font-family:var(--serif);font-size:1rem;line-height:1.6;min-height:90px;resize:vertical}
+  textarea.mono{font-family:var(--mono);font-size:14px;min-height:260px}
+  input:focus,textarea:focus{border-color:var(--c)}
+  input[type=date]{max-width:220px;color-scheme:dark}
+  .fila{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:18px 0 0}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--serif);font-weight:600;
+    font-size:14px;letter-spacing:.04em;padding:12px 18px;border-radius:2px;cursor:pointer;
+    background:#0b0b0d;border:1px solid var(--tinta);color:var(--gris);transition:color .18s,border-color .18s}
+  .btn:hover{color:var(--bc,var(--c));border-color:var(--bc,var(--c))}
+  .btn.fuerte{background:var(--c);border-color:var(--c);color:#0a0a0a;font-weight:700}
+  .btn.fuerte:hover{filter:brightness(1.12);color:#0a0a0a}
+  .btn.chico{padding:8px 12px;font-size:13px}
+  .btn.peligro{--bc:#ff5c5c}
+  .estado{margin:12px 0 0;min-height:1.3em;font-size:15px;color:var(--gris)}
+  .estado.mal{color:#ff5c5c} .estado.bien{color:#7ee787}
+
+  .lista{display:flex;flex-direction:column;gap:10px;margin:8px 0 0}
+  .item{border:1px solid var(--tinta);border-left:3px solid var(--ic);border-radius:4px;background:#0b0b0d;padding:14px 16px}
+  .item .cab{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0 0 6px}
+  .fecha{font-family:var(--mono);font-size:14px;color:var(--hueso)}
+  .chip{font-weight:700;font-size:13px;letter-spacing:.06em;padding:3px 10px;border-radius:999px;color:#0a0a0a;background:var(--ic)}
+  .cant{font-family:var(--mono);font-size:13px;color:var(--gris-2)}
+  .item .tit{font-weight:600;color:var(--hueso);margin:0 0 4px}
+  .item .txt{color:var(--gris);font-size:15px;line-height:1.55;margin:0;white-space:pre-wrap;
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .item .txt.entero{display:block}
+  .item .acc{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+  .item.oculta{opacity:.55}
+  .vacio{color:var(--gris-2);font-size:15px}
+  .ayuda{color:var(--gris);font-size:15px;line-height:1.65;margin:0 0 10px}
+  .ayuda code{font-family:var(--mono);font-size:13px;color:var(--lima)}
+  pre.ejemplo{font-family:var(--mono);font-size:13px;line-height:1.6;color:var(--gris);background:#08080a;
+    border:1px solid var(--tinta);padding:12px 14px;border-radius:2px;overflow-x:auto;margin:0 0 12px}
+  [hidden]{display:none!important}
+  @media (prefers-reduced-motion:reduce){ *{transition:none!important;scroll-behavior:auto!important} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="kicker"><a href="./">Una consigna por día</a> · Panel</p>
+  <h1>Panel de<span>consignas</span></h1>
+
+  <!-- ENTRAR -->
+  <section class="tarjeta" id="cajaClave" style="--c:#ff1f8e">
+    <h2>Entrar</h2>
+    <form id="formClave">
+      <label class="rot" for="clave">Clave</label>
+      <input type="password" id="clave" autocomplete="current-password" required>
+      <div class="fila"><button class="btn fuerte" type="submit">Entrar</button></div>
+      <p class="estado" id="estadoClave"></p>
+    </form>
+  </section>
+
+  <div id="panel" hidden>
+
+    <!-- CARGAR UNA -->
+    <section class="tarjeta" style="--c:#c6ff00">
+      <h2>Cargar una consigna</h2>
+      <form id="formConsigna">
+        <label class="rot" for="fecha">Día <small>— si ya tiene consigna, la reemplaza</small></label>
+        <input type="date" id="fecha" required>
+        <label class="rot" for="titulo">Título <small>— corto, sale en el calendario y en la imagen</small></label>
+        <input type="text" id="titulo" maxlength="80" style="font-family:var(--serif);font-size:15px">
+        <label class="rot" for="texto">Qué hacer <small>— concreto, con la restricción adentro</small></label>
+        <textarea id="texto" required></textarea>
+        <label class="rot" for="regla">La regla <small>— lo prohibido, opcional</small></label>
+        <textarea id="regla" style="min-height:60px"></textarea>
+        <label class="rot" for="pista">La pista <small>— el truco de oficio, opcional</small></label>
+        <textarea id="pista" style="min-height:60px"></textarea>
+        <div class="fila">
+          <button class="btn fuerte" type="submit">Guardar</button>
+          <button class="btn" type="button" id="limpiar">Vaciar</button>
+        </div>
+        <p class="estado" id="estadoConsigna"></p>
+      </form>
+    </section>
+
+    <!-- CARGAR EN TANDA -->
+    <section class="tarjeta" style="--c:#00e0ff">
+      <h2>Cargar en tanda</h2>
+      <p class="ayuda">Para programar varias de una. Cada consigna arranca con una línea <code>AAAA-MM-DD | Título</code>, sigue el texto, y opcionalmente una línea que empiece con <code>regla:</code> y otra con <code>pista:</code>. Entre una y otra, una línea con <code>---</code>.</p>
+<pre class="ejemplo">2026-11-24 | La factura
+Escribí un soneto sobre algo que no merece un soneto: una factura, la fila del banco.
+regla: prohibida la palabra «como».
+pista: pensá el último verso primero.
+---
+2026-11-25 | Inventario
+Hacé la lista de lo que hay en tu heladera como si fuera un testamento.</pre>
+      <textarea class="mono" id="tanda" spellcheck="false"></textarea>
+      <div class="fila"><button class="btn fuerte" type="button" id="cargarTanda">Revisar y cargar</button></div>
+      <p class="estado" id="estadoTanda"></p>
+    </section>
+
+    <!-- LAS QUE HAY -->
+    <section class="tarjeta" style="--c:#ffe500">
+      <h2>Las que hay</h2>
+      <div class="lista" id="listaConsignas"></div>
+    </section>
+
+    <!-- TEXTOS DE UN DÍA -->
+    <section class="tarjeta" id="cajaTextos" style="--c:#ff1f8e" hidden>
+      <h2 id="tituloTextos">Textos</h2>
+      <div class="lista" id="listaTextos"></div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* la misma URL que en index.html. Si renombrás el Worker, en los dos */
+var API='https://actividades-taller.thepablix.workers.dev';
+if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)){
+  var a=new URLSearchParams(location.search).get('api'); if(a) API=a.replace(/\/+$/,'');
+}
+
+var $=function(id){ return document.getElementById(id); };
+var clave='', hoy='', consignas=[];
+
+function el(tag,clase,texto){
+  var e=document.createElement(tag); if(clase) e.className=clase; if(texto!=null) e.textContent=texto; return e;
+}
+function avisar(id,msj,tipo){ var e=$(id); e.className='estado'+(tipo?' '+tipo:''); e.textContent=msj||''; }
+function fechaLarga(s){
+  return new Date(s+'T12:00:00Z').toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'UTC'});
+}
+function sumarDia(s,n){ var f=new Date(s+'T12:00:00Z'); f.setUTCDate(f.getUTCDate()+n); return f.toISOString().slice(0,10); }
+
+async function pedir(ruta, metodo, cuerpo){
+  var r=await fetch(API+ruta,{method:metodo||'GET',
+    headers:Object.assign({'X-Clave':clave}, cuerpo?{'Content-Type':'application/json'}:{}),
+    body:cuerpo?JSON.stringify(cuerpo):undefined});
+  var d={}; try{ d=await r.json(); }catch(e){}
+  if(r.status===401){ salir(); throw new Error('Clave incorrecta.'); }
+  if(!r.ok) throw new Error(d.error||('Error '+r.status));
+  return d;
+}
+
+/* ---------- entrar ---------- */
+function salir(){ try{ sessionStorage.removeItem('taller-clave'); }catch(e){} $('panel').hidden=true; $('cajaClave').hidden=false; }
+async function entrar(c){
+  clave=c;
+  try{
+    await refrescar();
+    try{ sessionStorage.setItem('taller-clave',c); }catch(e){}
+    $('cajaClave').hidden=true; $('panel').hidden=false;
+  }catch(e){ avisar('estadoClave',e.message,'mal'); }
+}
+$('formClave').onsubmit=function(e){ e.preventDefault(); entrar($('clave').value); };
+try{ var guardada=sessionStorage.getItem('taller-clave'); if(guardada) entrar(guardada); }catch(e){}
+
+/* ---------- la lista ---------- */
+async function refrescar(){
+  var d=await pedir('/admin/consignas');
+  hoy=d.hoy; consignas=d.consignas;
+  pintarLista();
+  /* el día que propone el formulario: el primero libre desde hoy. Es lo
+     que vas a querer cargar nueve de cada diez veces */
+  if(!$('fecha').value) $('fecha').value=primerLibre();
+}
+function primerLibre(){
+  var tomadas={}; consignas.forEach(function(c){ tomadas[c.fecha]=1; });
+  var f=hoy; while(tomadas[f]) f=sumarDia(f,1); return f;
+}
+function pintarLista(){
+  var L=$('listaConsignas'); L.innerHTML='';
+  if(!consignas.length){ L.appendChild(el('p','vacio','Todavía no cargaste ninguna.')); return; }
+  /* las programadas arriba, de la más próxima a la más lejana; después
+     hoy; después las pasadas, de la más nueva a la más vieja */
+  var futuras=consignas.filter(function(c){return c.fecha>hoy;}).sort(function(a,b){return a.fecha<b.fecha?-1:1;});
+  var resto=consignas.filter(function(c){return c.fecha<=hoy;});
+  futuras.concat(resto).forEach(function(c){
+    var tipo=c.fecha>hoy?['Programada','#00e0ff']:c.fecha===hoy?['Hoy','#c6ff00']:['Pasada','#8d8d86'];
+    var it=el('div','item'); it.style.setProperty('--ic',tipo[1]);
+    var cab=el('div','cab');
+    cab.appendChild(el('span','chip',tipo[0]));
+    cab.appendChild(el('span','fecha',fechaLarga(c.fecha)));
+    cab.appendChild(el('span','cant',c.cantidad+(c.cantidad===1?' texto':' textos')));
+    it.appendChild(cab);
+    if(c.titulo) it.appendChild(el('p','tit',c.titulo));
+    var tx=el('p','txt',c.texto); tx.title='Clic para ver entera'; tx.onclick=function(){ tx.classList.toggle('entero'); };
+    it.appendChild(tx);
+    var acc=el('div','acc');
+    acc.appendChild(boton('Editar',function(){ editar(c); }));
+    if(c.fecha<=hoy) acc.appendChild(boton('Ver textos',function(){ verTextos(c.fecha); }));
+    acc.appendChild(boton('Borrar',function(){ borrarConsigna(c); },true));
+    it.appendChild(acc);
+    L.appendChild(it);
+  });
+}
+function boton(txt,fn,peligro){
+  var b=el('button','btn chico'+(peligro?' peligro':''),txt); b.type='button'; b.onclick=fn; return b;
+}
+
+/* ---------- cargar / editar ---------- */
+function editar(c){
+  $('fecha').value=c.fecha; $('titulo').value=c.titulo||''; $('texto').value=c.texto||'';
+  $('regla').value=c.regla||''; $('pista').value=c.pista||'';
+  $('formConsigna').scrollIntoView({behavior:'smooth',block:'start'});
+  avisar('estadoConsigna','Editando la del '+fechaLarga(c.fecha)+'.');
+}
+$('limpiar').onclick=function(){
+  ['titulo','texto','regla','pista'].forEach(function(k){ $(k).value=''; });
+  $('fecha').value=primerLibre(); avisar('estadoConsigna','');
+};
+$('formConsigna').onsubmit=async function(e){
+  e.preventDefault();
+  var c={fecha:$('fecha').value,titulo:$('titulo').value,texto:$('texto').value,regla:$('regla').value,pista:$('pista').value};
+  var existe=consignas.some(function(x){return x.fecha===c.fecha;});
+  if(existe && !confirm('El '+fechaLarga(c.fecha)+' ya tiene consigna. ¿La reemplazo?')) return;
+  if(c.fecha<hoy && !confirm('Esa fecha ya pasó: la consigna va a aparecer directo en el calendario. ¿Sigo?')) return;
+  try{
+    await pedir('/admin/consigna','POST',c);
+    avisar('estadoConsigna','Guardada para el '+fechaLarga(c.fecha)+'.','bien');
+    ['titulo','texto','regla','pista'].forEach(function(k){ $(k).value=''; });
+    $('fecha').value='';
+    await refrescar();
+  }catch(err){ avisar('estadoConsigna',err.message,'mal'); }
+};
+
+/* ---------- en tanda ---------- */
+function leerTanda(t){
+  return t.replace(/\r/g,'').split(/\n\s*---+\s*\n/).map(function(b){ return b.trim(); }).filter(Boolean).map(function(b,i){
+    var lineas=b.split('\n'), cab=lineas.shift().split('|');
+    var c={fecha:cab[0].trim(),titulo:(cab.slice(1).join('|')||'').trim(),texto:[],regla:'',pista:''};
+    lineas.forEach(function(l){
+      var m=l.match(/^\s*(regla|pista)\s*:\s*(.*)$/i);
+      if(m) c[m[1].toLowerCase()]=m[2].trim(); else c.texto.push(l);
+    });
+    c.texto=c.texto.join('\n').trim();
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(c.fecha)) throw new Error('La consigna '+(i+1)+' no arranca con una fecha AAAA-MM-DD.');
+    if(!c.texto) throw new Error('La del '+c.fecha+' no tiene texto.');
+    return c;
+  });
+}
+$('cargarTanda').onclick=async function(){
+  var lista;
+  try{ lista=leerTanda($('tanda').value); }catch(e){ avisar('estadoTanda',e.message,'mal'); return; }
+  if(!lista.length){ avisar('estadoTanda','No hay nada para cargar.','mal'); return; }
+  var pisa=lista.filter(function(c){ return consignas.some(function(x){return x.fecha===c.fecha;}); });
+  /* las fechas repetidas dentro de la misma tanda: la segunda pisaría a
+     la primera sin avisar, y eso casi seguro es un error de tipeo */
+  var vistas={}, rep=lista.filter(function(c){ var r=vistas[c.fecha]; vistas[c.fecha]=1; return r; });
+  if(rep.length){ avisar('estadoTanda','Fecha repetida en la tanda: '+rep.map(function(c){return c.fecha;}).join(', '),'mal'); return; }
+  var msj='Voy a cargar '+lista.length+' consigna(s), del '+lista[0].fecha+' al '+lista[lista.length-1].fecha+'.';
+  if(pisa.length) msj+='\n\nOjo: '+pisa.length+' reemplaza(n) a una que ya existe ('+pisa.map(function(c){return c.fecha;}).join(', ')+').';
+  if(!confirm(msj)) return;
+  var bien=0;
+  for(var i=0;i<lista.length;i++){
+    try{ await pedir('/admin/consigna','POST',lista[i]); bien++; avisar('estadoTanda','Cargando… '+bien+'/'+lista.length); }
+    catch(e){ avisar('estadoTanda','Se cortó en la del '+lista[i].fecha+': '+e.message+'. Las anteriores quedaron cargadas.','mal'); await refrescar(); return; }
+  }
+  avisar('estadoTanda','Listo: '+bien+' cargadas.','bien');
+  $('tanda').value='';
+  await refrescar();
+};
+
+/* ---------- borrar ---------- */
+async function borrarConsigna(c){
+  var extra=c.cantidad?'\n\nTiene '+c.cantidad+' texto(s) de la gente, que se borran con ella. No hay vuelta atrás.':'';
+  if(!confirm('¿Borro la consigna del '+fechaLarga(c.fecha)+'?'+extra)) return;
+  try{
+    await pedir('/admin/consigna?fecha='+c.fecha+(c.cantidad?'&forzar=1':''),'DELETE');
+    await refrescar();
+  }catch(e){ alert(e.message); }
+}
+
+/* ---------- moderar los textos de un día ---------- */
+async function verTextos(fecha){
+  $('cajaTextos').hidden=false;
+  $('tituloTextos').textContent='Textos del '+fechaLarga(fecha);
+  var L=$('listaTextos'); L.innerHTML='';
+  try{
+    var r=(await pedir('/admin/respuestas?fecha='+fecha)).respuestas;
+  }catch(e){ L.appendChild(el('p','vacio',e.message)); return; }
+  if(!r.length) L.appendChild(el('p','vacio','Nadie subió nada ese día.'));
+  r.forEach(function(x){
+    var it=el('div','item'+(x.oculta?' oculta':'')); it.style.setProperty('--ic',x.oculta?'#ff5c5c':'#ff1f8e');
+    var cab=el('div','cab');
+    if(x.oculta) cab.appendChild(el('span','chip','Oculto'));
+    cab.appendChild(el('span','fecha','@'+x.usuario));
+    cab.appendChild(el('span','cant',new Date(x.creada).toLocaleString('es-AR',{timeZone:'America/Argentina/Buenos_Aires'})));
+    it.appendChild(cab);
+    var tx=el('p','txt entero',x.texto); it.appendChild(tx);
+    var acc=el('div','acc');
+    /* ocultar antes que borrar: si te equivocaste, se vuelve a mostrar */
+    acc.appendChild(boton(x.oculta?'Mostrar':'Ocultar',async function(){
+      try{ await pedir('/admin/ocultar','POST',{id:x.id,oculta:!x.oculta}); verTextos(fecha); refrescar(); }catch(e){ alert(e.message); }
+    }));
+    acc.appendChild(boton('Borrar',async function(){
+      if(!confirm('¿Borro el texto de @'+x.usuario+'? No hay vuelta atrás.')) return;
+      try{ await pedir('/admin/respuesta?id='+x.id,'DELETE'); verTextos(fecha); refrescar(); }catch(e){ alert(e.message); }
+    },true));
+    it.appendChild(acc);
+    L.appendChild(it);
+  });
+  $('cajaTextos').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+})();
+</script>
+</body>
+</html>

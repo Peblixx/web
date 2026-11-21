@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<!-- =====================================================================
+     ANTINIEBLA · TALLER · UNA CONSIGNA POR DÍA
+
+     Cada día aparece una consigna nueva, la misma para todos. La gente
+     escribe, sube su texto con su usuario de Instagram, y queda publicado
+     junto al de los demás. Con el calendario se vuelve a cualquier día
+     anterior, y cada texto se comparte como imagen para historias.
+
+     CÓMO SE EDITA
+     · Las consignas NO se cargan acá: se cargan desde admin.html, que las
+       guarda en el Worker. Esta página no sabe nada del futuro, y es a
+       propósito (ver el comentario de arriba del Worker).
+     · El texto fijo (título, bajada, avisos) está escrito a mano abajo.
+     · Todo lo que cambia con el día —consigna, textos, calendario— lo
+       arma el JavaScript del final, pidiéndoselo a API.
+     · La imagen para compartir se dibuja en dibujarTarjeta(). Si cambiás
+       el dominio o el pie, es ahí.
+
+     ESTO GUARDA LO QUE LA GENTE ESCRIBE. Es la única página de AntiNiebla
+     que lo hace, y por eso lo dice dos veces: arriba del botón de subir y
+     en la bajada. El resto del sitio promete que nada se guarda; esta
+     página no puede hacer de cuenta que esa promesa la cubre.
+
+     RUTAS RELATIVAS — esta página vive en antiniebla/actividadesTaller/:
+     · imgs/ está en ../../imgs/     · la portada de AntiNiebla en ../index.html
+     ===================================================================== -->
+
+<title>Una consigna por día · Taller de escritura · AntiNiebla</title>
+<meta name="description" content="Una consigna de escritura creativa por día, la misma para todos. Escribís, subís tu texto con tu usuario de Instagram y leés lo que hicieron los demás.">
+<link rel="canonical" href="https://www.pablocristin.com.ar/antiniebla/actividadesTaller/">
+<meta name="author" content="Pablo Cristín">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="keywords" content="consigna de escritura, consigna diaria, taller de escritura creativa, ejercicios de poesía, escritura creativa online, consignas para escribir, Pablo Cristín">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AntiNiebla · Pablo Cristín">
+<meta property="og:locale" content="es_AR">
+<meta property="og:url" content="https://www.pablocristin.com.ar/antiniebla/actividadesTaller/">
+<meta property="og:title" content="Una consigna por día · AntiNiebla">
+<meta property="og:description" content="La misma consigna para todos, un día. Escribís, la subís y leés lo que hicieron los demás.">
+<meta property="og:image" content="https://www.pablocristin.com.ar/imgs/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AntiNiebla, coso de escritura creativa de Pablo Cristín">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@peblix">
+<meta name="twitter:creator" content="@peblix">
+<meta name="twitter:title" content="Una consigna por día · AntiNiebla">
+<meta name="twitter:description" content="La misma consigna para todos, un día. Escribís, la subís y leés lo que hicieron los demás.">
+<meta name="twitter:image" content="https://www.pablocristin.com.ar/imgs/og-image.jpg">
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["WebPage","LearningResource"],"@id":"https://www.pablocristin.com.ar/antiniebla/actividadesTaller/","url":"https://www.pablocristin.com.ar/antiniebla/actividadesTaller/","name":"Una consigna por día","description":"Una consigna de escritura creativa por día, la misma para todos, con los textos que sube la gente.","inLanguage":"es-AR","learningResourceType":"Consigna de escritura","isAccessibleForFree":true,"author":{"@type":"Person","name":"Pablo Cristín","alternateName":"@peblix","url":"https://www.pablocristin.com.ar/","sameAs":["https://instagram.com/peblix","https://tiktok.com/@peblix"]},"isPartOf":{"@type":"WebSite","url":"https://www.pablocristin.com.ar/","name":"Pablo Cristín"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Pablo Cristín","item":"https://www.pablocristin.com.ar/"},{"@type":"ListItem","position":2,"name":"AntiNiebla","item":"https://www.pablocristin.com.ar/antiniebla/"},{"@type":"ListItem","position":3,"name":"Una consigna por día","item":"https://www.pablocristin.com.ar/antiniebla/actividadesTaller/"}]}]}</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Space+Mono:wght@400;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    /* paleta y tipografías: idénticas a pablocristin.com.ar */
+    --negro:#0a0a0a; --carbon:#141416; --tinta:#2b2b30;
+    --fucsia:#ff1f8e; --celeste:#00e0ff; --azul:#2b4bff;
+    --lima:#c6ff00; --amarillo:#ffe500; --violeta:#9b30ff; --menta:#4dffc3;
+    --hueso:#f4f4f0; --gris:#a8a8a2; --gris-2:#8d8d86;
+    --display:"Bricolage Grotesque",system-ui,sans-serif;
+    --serif:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"Space Mono",ui-monospace,Menlo,Consolas,monospace;
+    --ac:#ff1f8e;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth;scroll-padding-top:24px}
+  html,body{margin:0;padding:0;background:var(--negro);color:var(--hueso)}
+  body{font-family:var(--serif);min-height:100dvh;overflow-x:hidden}
+  .wrap{width:100%;max-width:860px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+
+  /* ============================================================
+     EL FONDO — trama, niebla y nubes
+     ------------------------------------------------------------
+     La niebla son degradados radiales muy suaves que se desplazan
+     con transform. Nada de filter:blur ni canvas: el desenfoque ya
+     viene del largo de la transición del degradado, así que el
+     navegador lo compone en la placa de video y el procesador no
+     hace nada por cuadro. En un celular viejo esto cuesta lo mismo
+     que una imagen quieta.
+
+     REGLA si tocás los degradados: cada óvalo tiene que caber
+     ENTERO adentro de la caja. El background se recorta en el borde
+     del elemento, así que uno que se pasa queda cortado con un filo
+     recto y se ve enseguida. Centro menos radio no puede dar
+     negativo; centro más radio no puede pasar de 100.
+     ============================================================ */
+  body::before{
+    content:"";position:fixed;inset:-150px;z-index:0;pointer-events:none;
+    background:repeating-linear-gradient(48deg,#141414 0 7px,#0a0a0a 7px 14px);opacity:.9;
+    animation:drift 12.67s linear infinite;will-change:transform
+  }
+  @keyframes drift{to{transform:translate(var(--dx,0px),var(--dy,0px))}}
+  .niebla{position:fixed;inset:-30%;z-index:0;pointer-events:none}
+  .niebla i{position:absolute;inset:0;display:block;background-repeat:no-repeat;
+    animation:vaho var(--d,60s) ease-in-out infinite alternate;will-change:transform}
+  .niebla i:nth-child(1){--d:52s;--x:6%;--y:-3%;
+    background-image:radial-gradient(24% 20% at 28% 30%, rgba(190,205,225,.115), transparent 68%),
+                     radial-gradient(20% 17% at 74% 58%, rgba(160,180,210,.085), transparent 70%)}
+  .niebla i:nth-child(2){--d:73s;--x:-8%;--y:4%;
+    background-image:radial-gradient(28% 22% at 52% 74%, rgba(205,212,228,.09), transparent 66%),
+                     radial-gradient(18% 15% at 80% 22%, rgba(155,235,255,.055), transparent 72%)}
+  .niebla i:nth-child(3){--d:97s;--x:5%;--y:6%;
+    background-image:radial-gradient(32% 26% at 40% 52%, rgba(175,190,215,.065), transparent 64%)}
+  @keyframes vaho{from{transform:translate3d(0,0,0) scale(1)}
+                  to{transform:translate3d(var(--x,5%),var(--y,-4%),0) scale(1.14)}}
+  .nubes{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .nubes i{position:absolute;top:var(--top,20%);left:0;
+    width:var(--ancho,600px);height:var(--alto,240px);display:block;opacity:0;
+    animation:cruzarNube var(--dur,120s) linear var(--ret,0s) infinite,
+              velarNube  var(--dur,120s) ease-in-out var(--ret,0s) infinite;
+    will-change:transform,opacity}
+  @keyframes cruzarNube{from{transform:translate3d(-105%,0,0) scale(1)}
+                        to{transform:translate3d(calc(100vw + 10%), var(--sube,0), 0) scale(1.25)}}
+  /* entran y salen desvanecidas: al 26% del recorrido la nube ya está
+     entera adentro, así que nunca se ve el filo del borde de la pantalla */
+  @keyframes velarNube{0%,100%{opacity:0} 26%,74%{opacity:var(--o,.3)}}
+  @media (prefers-reduced-motion:reduce){ body::before,.niebla i,.nubes i{animation:none} }
+
+  /* ---------- portada ---------- */
+  header.portada{padding:74px 0 6px}
+  .kicker{font-family:var(--mono);font-size:13px;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--fucsia);margin:0 0 16px}
+  .kicker a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,31,142,.35)}
+  h1{font-family:var(--display);font-weight:800;text-transform:uppercase;
+     font-size:clamp(2.4rem,11vw,5.4rem);line-height:.85;letter-spacing:-.045em;margin:0 0 24px}
+  h1 span{display:block;color:var(--fucsia)}
+  .bajada{color:var(--gris);font-size:1.1rem;line-height:1.72;margin:0;max-width:40em}
+  .bajada b{color:var(--hueso);font-weight:600}
+
+  /* chips de metadata — van DESPUÉS de la bajada, no antes del título */
+  .sello{display:flex;flex-wrap:wrap;gap:8px;margin:26px 0 0}
+  .sello span{
+    font-family:var(--serif);font-weight:600;font-size:13px;letter-spacing:.06em;
+    padding:6px 12px;border-radius:999px;border:1px solid var(--tinta);
+    background:#101012;color:var(--gris-2);white-space:nowrap}
+  .sello span:first-child{color:#0a0a0a;background:var(--fucsia);border-color:var(--fucsia);font-weight:700}
+
+  /* ---------- secciones ---------- */
+  .seccion{margin:72px 0 0}
+  .secCabeza{border-bottom:2px solid var(--fc);padding:0 0 12px;margin:0 0 6px}
+  .secCabeza h2{font-family:var(--display);font-weight:800;text-transform:uppercase;
+    font-size:clamp(1.7rem,6.4vw,2.6rem);line-height:.96;letter-spacing:-.035em;
+    margin:0;color:var(--fc)}
+  .secNota{font-family:var(--mono);font-size:13px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--gris-2);margin:10px 0 0}
+  .secIntro{color:var(--gris);font-size:1.04rem;line-height:1.72;margin:16px 0 0;max-width:38em}
+  .secIntro b{color:var(--hueso);font-weight:600}
+
+  /* ---------- tarjeta: la unidad de contenido ---------- */
+  .tarjeta{
+    position:relative;overflow:hidden;border-radius:6px;scroll-margin-top:22px;
+    background:linear-gradient(165deg,#17171b 0%,#0f0f11 70%);
+    border:1px solid var(--tinta);border-top:3px solid var(--c);
+    padding:26px 22px 24px;margin:22px 0 0
+  }
+  .tarjeta::before{
+    content:'';position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background:radial-gradient(ellipse at 10% -24%, color-mix(in srgb,var(--c) 24%,transparent), transparent 60%)
+  }
+  /* obligatorio: sin esto el halo tapa el contenido */
+  .tarjeta > *{position:relative;z-index:1}
+  @media (min-width:640px){ .tarjeta{padding:32px 32px 28px} }
+
+  .tarjeta h3{font-family:var(--display);font-weight:800;text-transform:uppercase;
+    font-size:clamp(1.5rem,6.2vw,2.05rem);line-height:.98;letter-spacing:-.03em;
+    margin:0 0 16px;color:var(--hueso)}
+  .tarjeta p, .tarjeta li{color:var(--gris);font-size:1.05rem;line-height:1.72}
+  .tarjeta p{margin:0 0 12px}
+  .tarjeta p:last-child{margin-bottom:0}
+  .tarjeta b, .tarjeta strong{color:var(--hueso);font-weight:600}
+  .tarjeta em{color:var(--c);font-style:italic}
+  .tarjeta ol{margin:0;padding:0 0 0 1.3em}
+  .tarjeta ol li{margin:0 0 10px;padding-left:4px}
+  .tarjeta ol li::marker{color:var(--c);font-family:var(--mono);font-size:.85em}
+
+  .bloque{border-top:1px solid var(--tinta);padding:18px 0 0;margin:18px 0 0}
+  .bTit{font-family:var(--serif);font-weight:600;font-size:13px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--gris-2);margin:0 0 12px}
+
+  /* ---------- caja de regla o advertencia ---------- */
+  .caja{margin:20px 0 0;padding:16px 18px;border-radius:4px;
+    background:#0b0b0d;border:1px solid var(--tinta);border-left:3px solid var(--cc)}
+  .caja b.cabeza{display:flex;align-items:center;gap:8px;
+    font-family:var(--serif);font-weight:700;font-size:13px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--cc);margin:0 0 9px}
+  .caja b.cabeza svg{width:15px;height:15px;flex:none;stroke:currentColor;fill:none;
+    stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .caja p{margin:0 0 10px;font-size:1.02rem}
+  .caja p:last-child{margin-bottom:0}
+  .regla{--cc:var(--c)}
+  .trampa{--cc:#ff5c5c}
+
+  /* ---------- cierre ---------- */
+  .cierre{margin:60px 0 0;padding:30px 0 0;border-top:1px solid var(--tinta);
+    color:var(--gris);font-size:1.04rem;line-height:1.75}
+  .cierre p{margin:0 0 14px}
+  .cierre b{color:var(--hueso);font-weight:600}
+  .cierre a{color:var(--fucsia);text-decoration:none;border-bottom:1px solid rgba(255,31,142,.35)}
+  .cierre a:hover{border-bottom-color:var(--fucsia)}
+  footer{text-align:center;font-family:var(--mono);font-size:13px;color:var(--gris-2);
+    letter-spacing:.2em;padding:56px 0 40px}
+  footer a{color:var(--gris-2);text-decoration:none}
+  footer a:hover{color:var(--hueso)}
+
+  /* ---------- aparecer al scrollear ---------- */
+  .aparece{opacity:0;transform:translateY(20px);
+    transition:opacity .55s ease, transform .55s cubic-bezier(.2,.8,.25,1)}
+  .aparece.visible{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .aparece{opacity:1;transform:none;transition:none}
+  }
+
+  /* ---------- volver arriba + letras que caen ---------- */
+  .volverArriba{
+    display:inline-flex;align-items:center;gap:9px;margin:24px 0 0;
+    font-family:var(--serif);font-weight:600;font-size:14px;letter-spacing:.05em;
+    padding:11px 18px;border-radius:2px;cursor:pointer;
+    background:#0b0b0d;border:1px solid var(--tinta);color:var(--gris);
+    transition:color .18s,border-color .18s,box-shadow .18s,transform .12s}
+  .volverArriba::before{content:'↑';font-size:15px;line-height:1}
+  .volverArriba:hover,.volverArriba:focus-visible{
+    color:var(--c);border-color:var(--c);outline:none;box-shadow:0 0 26px -12px var(--c)}
+  .volverArriba:active{transform:translateY(1px)}
+
+  .cieloLetras{position:fixed;inset:0;z-index:70;pointer-events:none;overflow:hidden;will-change:transform}
+  .letraCae{position:absolute;top:0;left:0;pointer-events:none;will-change:transform,opacity;
+    animation:caerLetra var(--dur,4s) cubic-bezier(.36,.05,.5,1) forwards}
+  .letraCae span{display:block;font-family:var(--display);font-weight:800;line-height:1;
+    animation:mecerLetra var(--durX,1.4s) ease-in-out infinite alternate}
+  @keyframes caerLetra{
+    0%{transform:translateY(0);opacity:0}
+    8%{opacity:var(--op,.9)}
+    84%{opacity:var(--op,.9)}
+    100%{transform:translateY(var(--dy,110vh));opacity:0}}
+  @keyframes mecerLetra{
+    from{transform:translateX(calc(var(--amp,24px) * -1)) rotate(var(--r1,-22deg))}
+    to  {transform:translateX(var(--amp,24px)) rotate(var(--r2,24deg))}}
+  @media (prefers-reduced-motion:reduce){ .cieloLetras{display:none} }
+
+  .alIndice{
+    position:fixed;right:16px;bottom:16px;z-index:30;
+    width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+    background:#141416;border:1px solid var(--tinta);color:var(--gris);
+    text-decoration:none;font-size:18px;line-height:1;
+    opacity:0;pointer-events:none;transition:opacity .25s ease,color .18s,border-color .18s}
+  .alIndice.verse{opacity:1;pointer-events:auto}
+  .alIndice:hover{color:var(--fucsia);border-color:var(--fucsia)}
+
+  @media print{
+    body::before,.niebla,.nubes,.alIndice,.volverArriba{display:none}
+    .tarjeta{break-inside:avoid}
+    .aparece{opacity:1;transform:none}
+  }
+
+  /* ============================================================
+     PROPIO DE ESTA PÁGINA
+     ============================================================ */
+
+  /* ---------- botonera del índice ---------- */
+  .botonera{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:30px 0 0;max-width:420px}
+  .bot{
+    aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:8px;padding:8px 6px;text-align:center;
+    text-decoration:none;border-radius:6px;color:var(--gris);
+    font-family:var(--serif);font-weight:600;font-size:13px;letter-spacing:.06em;
+    border:1px solid var(--tinta);
+    background:linear-gradient(165deg,#17171b 0%,#101012 70%);
+    transition:transform .18s ease,color .18s ease,border-color .18s ease,box-shadow .18s ease,background .18s ease}
+  .bot svg{width:27px;height:27px;flex:none;display:block;stroke:currentColor;fill:none;
+    stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .18s ease}
+  .bot:hover,.bot:focus-visible{
+    color:var(--c);border-color:var(--c);outline:none;transform:translateY(-3px);
+    background:linear-gradient(165deg,color-mix(in srgb,var(--c) 14%,#17171b) 0%,#101012 72%);
+    box-shadow:0 12px 30px -16px var(--c), inset 0 0 24px -14px var(--c)}
+  .bot:hover svg{transform:scale(1.1)}
+
+  /* ---------- la consigna ---------- */
+  .fechaConsigna{font-family:var(--mono);font-size:13px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--c);margin:0 0 14px}
+  /* la consigna es lo único que importa en la pantalla: va grande y en
+     hueso, no en el gris de párrafo. Es la "frase fuerte" de la página. */
+  .tarjeta p.textoConsigna{color:var(--hueso);font-size:clamp(1.18rem,4.4vw,1.42rem);
+    line-height:1.55;font-weight:500;white-space:pre-line}
+  .caja.pista{--cc:var(--celeste)}
+  .caja p{white-space:pre-line;color:var(--gris);line-height:1.65}
+  .cargando{color:var(--gris-2);font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase}
+
+  .cerrada{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin:20px 0 0;
+    padding:14px 18px;border:1px dashed var(--tinta);border-radius:4px;color:var(--gris);font-size:1rem}
+  .cerrada b{color:var(--hueso);font-weight:600}
+
+  /* ---------- formulario ---------- */
+  .form{display:flex;flex-direction:column;gap:12px;margin:4px 0 0}
+  .campoUsuario{display:flex;align-items:stretch;max-width:360px}
+  .campoUsuario span{display:grid;place-items:center;padding:0 12px 0 14px;font-family:var(--mono);
+    font-size:15px;color:var(--c);background:#08080a;border:1px solid var(--tinta);border-right:0;border-radius:2px 0 0 2px}
+  .form input, .form textarea{
+    font-family:var(--mono);font-size:14px;padding:15px;width:100%;
+    background:#08080a;border:1px solid var(--tinta);color:var(--hueso);
+    border-radius:2px;outline:none}
+  .campoUsuario input{border-radius:0 2px 2px 0}
+  /* el textarea sale de la regla de los inputs en mono: ahí se escribe un
+     poema, y un poema en monoespaciada cansa a los cuatro renglones.
+     Mismo motivo por el que los juegos eligen su tipografía para escribir. */
+  .form textarea{font-family:var(--serif);font-size:1.06rem;line-height:1.65;min-height:230px;resize:vertical}
+  .form input:focus, .form textarea:focus{border-color:var(--c)}
+  .form ::placeholder{color:#5c5c58}
+  .contador{font-family:var(--mono);font-size:13px;color:var(--gris-2);text-align:right;margin:-4px 0 0}
+  .contador.pasado{color:#ff5c5c}
+  /* el campo trampa para robots: fuera de la pantalla, no display:none,
+     porque algunos robots saltean justo los display:none */
+  .trampaRobot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    font-family:var(--serif);font-weight:600;font-size:14.5px;letter-spacing:.05em;
+    padding:14px 20px;border-radius:2px;cursor:pointer;text-decoration:none;
+    background:#0b0b0d;border:1px solid var(--tinta);color:var(--gris);
+    transition:color .18s,border-color .18s,box-shadow .18s,transform .12s,filter .18s}
+  .btn svg{width:17px;height:17px;flex:none;stroke:currentColor;fill:none;
+    stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .btn:hover,.btn:focus-visible{color:var(--c);border-color:var(--c);outline:none;box-shadow:0 0 26px -12px var(--c)}
+  .btn:active{transform:translateY(1px)}
+  .btn[disabled]{opacity:.5;cursor:default}
+  /* la acción principal de la página: subir el texto. Late uno solo. */
+  .btn.acc{background:var(--c);border-color:var(--c);color:#0a0a0a;font-weight:700;align-self:flex-start;
+    padding:16px 26px;
+    box-shadow:0 3px 24px -7px color-mix(in srgb, var(--c) 85%, transparent);
+    animation:resplandorAcc 3.4s ease-in-out infinite}
+  .btn.acc:hover{animation:none;filter:brightness(1.12);color:#0a0a0a}
+  @keyframes resplandorAcc{
+    0%,100%{box-shadow:0 3px 24px -7px color-mix(in srgb, var(--c) 85%, transparent)}
+    50%    {box-shadow:0 3px 34px -5px color-mix(in srgb, var(--c) 100%, transparent)}}
+  @media (prefers-reduced-motion:reduce){ .btn.acc{animation:none} }
+
+  .estado{min-height:1.4em;margin:0;font-size:1rem;color:var(--gris)}
+  .estado.mal{color:#ff5c5c}
+  .estado.bien{color:#7ee787}
+
+  /* ---------- los textos de la gente ---------- */
+  .contadorTextos{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gris-2);margin:10px 0 0}
+  .vacio{color:var(--gris);font-size:1.04rem;line-height:1.72;margin:22px 0 0}
+  .respuesta{padding:24px 22px 20px}
+  .autor{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:15px;font-weight:700;
+    color:var(--c);text-decoration:none;margin:0 0 16px;border-bottom:1px solid transparent}
+  .autor:hover{border-bottom-color:var(--c)}
+  .autor svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  /* pre-wrap: los saltos de verso y las sangrías son parte del poema.
+     Sin esto, un poema de doce versos sale como un párrafo. */
+  .tarjeta p.poema{white-space:pre-wrap;color:var(--hueso);font-size:1.08rem;line-height:1.7;margin:0;overflow-wrap:anywhere}
+  .pieRespuesta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;
+    margin:20px 0 0;padding:14px 0 0;border-top:1px solid var(--tinta)}
+  .hora{font-family:var(--mono);font-size:13px;color:var(--gris-2)}
+  .respuesta .btn{padding:10px 16px;font-size:14px}
+  .respuesta.mia{box-shadow:0 0 0 1px var(--c), 0 18px 40px -26px var(--c)}
+
+  /* ---------- calendario ---------- */
+  .cal{margin:24px 0 0;padding:20px 16px 18px}
+  .calCabeza{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 16px}
+  .calMes{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;
+    font-size:clamp(1.3rem,5vw,1.7rem);margin:0;color:var(--hueso)}
+  .calFlecha{width:44px;height:44px;display:grid;place-items:center;border-radius:2px;cursor:pointer;
+    background:#0b0b0d;border:1px solid var(--tinta);color:var(--gris);font-size:18px;
+    transition:color .18s,border-color .18s}
+  .calFlecha:hover:not([disabled]){color:var(--c);border-color:var(--c)}
+  .calFlecha[disabled]{opacity:.3;cursor:default}
+  .calGrilla{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+  .calSem{font-family:var(--serif);font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--gris-2);text-align:center;padding:0 0 4px}
+  .calDia{aspect-ratio:1/1;min-height:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    border-radius:4px;border:1px solid transparent;background:transparent;color:#4a4a47;
+    font-family:var(--mono);font-size:14px;padding:0}
+  /* solo los días que tienen consigna son botones; los otros son números
+     apagados. Así el calendario muestra de un vistazo cuándo hubo taller. */
+  button.calDia{cursor:pointer;color:var(--hueso);background:#111114;border-color:var(--tinta);
+    transition:border-color .18s,color .18s,background .18s,transform .12s}
+  button.calDia:hover,button.calDia:focus-visible{border-color:var(--c);color:var(--c);outline:none;
+    background:color-mix(in srgb,var(--c) 10%,#111114)}
+  button.calDia .n{font-size:13px;color:var(--gris-2);line-height:1}
+  button.calDia:hover .n{color:inherit}
+  .calDia.hoy{box-shadow:inset 0 0 0 2px var(--fucsia)}
+  .calDia.elegido{background:var(--c);border-color:var(--c);color:#0a0a0a}
+  .calDia.elegido .n{color:#0a0a0a}
+  .calNota{font-family:var(--serif);font-size:13px;color:var(--gris-2);margin:14px 0 0;line-height:1.6}
+
+  /* ---------- la ventana de compartir ---------- */
+  .velo{position:fixed;inset:0;z-index:80;background:rgba(5,5,6,.86);display:none;
+    align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+  .velo.abierto{display:flex}
+  .ventana{position:relative;width:100%;max-width:420px;margin:auto;border-radius:6px;
+    background:linear-gradient(165deg,#17171b 0%,#0f0f11 70%);border:1px solid var(--tinta);
+    border-top:3px solid var(--c);padding:22px 18px 18px}
+  .ventana h2{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;
+    font-size:1.5rem;margin:0 40px 14px 0;line-height:1}
+  .ventana img{display:block;width:100%;max-width:270px;margin:0 auto 16px;border-radius:4px;
+    border:1px solid var(--tinta);aspect-ratio:9/16;background:#0a0a0a}
+  .ventana .acciones{display:flex;flex-direction:column;gap:10px}
+  .ventana .btn{width:100%}
+  .ventana .fino{font-size:13px;color:var(--gris-2);line-height:1.6;margin:12px 0 0}
+  .cerrar{position:absolute;top:14px;right:12px;width:40px;height:40px;border-radius:2px;cursor:pointer;
+    background:transparent;border:1px solid var(--tinta);color:var(--gris);font-size:20px;line-height:1}
+  .cerrar:hover{color:var(--c);border-color:var(--c)}
+
+  .libro{
+    position:relative;overflow:hidden;border-radius:6px;
+    background:linear-gradient(150deg,#17171a 0%,#101012 60%);
+    border:1px solid var(--tinta);border-top:3px solid var(--lc,#ff1f8e);
+    padding:26px 22px;margin:60px 0 0;
+    display:flex;gap:22px;align-items:center;flex-wrap:wrap
+  }
+  .libro::before{
+    content:'';position:absolute;inset:0;pointer-events:none;opacity:.55;
+    background:radial-gradient(ellipse at 12% -30%,color-mix(in srgb,var(--lc) 26%,transparent),transparent 62%)
+  }
+  .libro > *{position:relative;z-index:1}
+  .libroTapa{
+    flex:none;width:118px;border-radius:3px;display:block;
+    box-shadow:0 10px 28px -10px rgba(0,0,0,.9), 0 0 0 1px color-mix(in srgb,var(--lc) 30%,transparent)
+  }
+  @media (min-width:600px){ .libroTapa{width:158px} }
+  .libroCuerpo{flex:1 1 260px;min-width:0}
+  .libroTag{
+    display:inline-block;font-family:var(--serif);font-weight:700;font-size:13px;
+    letter-spacing:.14em;text-transform:uppercase;color:#0a0a0a;background:var(--lc);
+    padding:5px 12px;border-radius:2px;margin:0 0 12px
+  }
+  .libro h2{
+    font-family:var(--display);font-weight:800;text-transform:uppercase;
+    font-size:clamp(1.5rem,5.6vw,2.05rem);line-height:.98;letter-spacing:-.02em;
+    margin:0 0 10px;color:var(--hueso)
+  }
+  .libroTxt{color:var(--gris);font-size:1.08rem;line-height:1.72;margin:0 0 12px}
+  .libroTxt b{color:var(--hueso);font-weight:600}
+  .libroDatos{
+    font-family:var(--serif);font-weight:600;font-size:13px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--gris-2);margin:0 0 18px
+  }
+  .libroDatos b{color:var(--lc);font-weight:600}
+  .libroForm{display:flex;flex-direction:column;gap:10px;max-width:390px;margin:0 0 10px}
+  .libroForm input{
+    font-family:var(--mono);font-size:14px;padding:15px;
+    background:#08080a;border:1px solid var(--tinta);color:var(--hueso);
+    border-radius:2px;outline:none
+  }
+  .libroForm input:focus{border-color:var(--lc)}
+  .libroBtn{
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    font-family:var(--serif);font-weight:700;font-size:14.5px;letter-spacing:.06em;
+    padding:16px 24px;border-radius:2px;cursor:pointer;border:1px solid var(--lc);
+    background:var(--lc);color:#0a0a0a;text-decoration:none;
+    width:100%;max-width:390px;
+    box-shadow:0 3px 24px -7px color-mix(in srgb,var(--lc) 85%,transparent);
+    animation:resplandor 3.4s ease-in-out infinite;
+    transition:box-shadow .22s ease, filter .18s ease
+  }
+  .libroBtn svg{width:17px;height:17px;flex:none;stroke:currentColor;fill:none;
+    stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .libroBtn:hover{
+    filter:brightness(1.12);animation:none;
+    box-shadow:0 4px 40px -6px color-mix(in srgb,var(--lc) 95%,transparent)
+  }
+  /* el latido queda para la acción principal y nada más. Seis botones
+     latiendo a la vez no es un resplandor, es una máquina tragamonedas. */
+  @keyframes resplandor{
+    0%,100%{box-shadow:0 3px 24px -7px color-mix(in srgb,var(--lc) 85%,transparent)}
+    50%    {box-shadow:0 3px 34px -5px color-mix(in srgb,var(--lc) 100%,transparent)}
+  }
+  @media (prefers-reduced-motion:reduce){ .libroBtn{animation:none} }
+  .libroFino{font-family:var(--serif);font-weight:500;font-size:13px;
+    color:var(--gris-2);line-height:1.8;margin:10px 0 0}
+</style>
+</head>
+<body id="top">
+
+<div class="niebla" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="nubes" aria-hidden="true">
+  <i style="--top:26.4%;--ancho:520px;--alto:220px;--dur:189.5s;--ret:-74.2s;--o:0.30;--sube:2.7vh;background:radial-gradient(14.4% 20.0% at 20.9% 41.3%, rgba(190,196,206,0.96), rgba(190,196,206,0) 72%),radial-gradient(24.5% 19.9% at 52.3% 48.0%, rgba(190,196,206,0.74), rgba(190,196,206,0) 72%),radial-gradient(19.3% 17.2% at 53.4% 69.0%, rgba(190,196,206,0.61), rgba(190,196,206,0) 72%),radial-gradient(25.9% 12.6% at 40.6% 28.5%, rgba(190,196,206,1.00), rgba(190,196,206,0) 72%),radial-gradient(16.5% 21.2% at 77.5% 73.0%, rgba(190,196,206,0.78), rgba(190,196,206,0) 72%)"></i>
+  <i style="--top:56.1%;--ancho:640px;--alto:260px;--dur:149.1s;--ret:-18.5s;--o:0.26;--sube:0.2vh;background:radial-gradient(19.5% 21.5% at 31.5% 44.3%, rgba(190,196,206,0.71), rgba(190,196,206,0) 72%),radial-gradient(20.1% 13.1% at 28.9% 66.5%, rgba(190,196,206,0.67), rgba(190,196,206,0) 72%),radial-gradient(21.9% 18.5% at 34.6% 34.0%, rgba(190,196,206,0.93), rgba(190,196,206,0) 72%),radial-gradient(25.8% 21.6% at 34.1% 70.7%, rgba(190,196,206,0.72), rgba(190,196,206,0) 72%),radial-gradient(18.9% 20.3% at 44.4% 47.8%, rgba(190,196,206,0.67), rgba(190,196,206,0) 72%)"></i>
+  <i style="--top:84.4%;--ancho:760px;--alto:300px;--dur:158.0s;--ret:-110.0s;--o:0.20;--sube:-0.8vh;background:radial-gradient(22.3% 18.3% at 50.0% 44.8%, rgba(190,196,206,0.90), rgba(190,196,206,0) 72%),radial-gradient(25.7% 21.6% at 47.8% 25.0%, rgba(190,196,206,0.60), rgba(190,196,206,0) 72%),radial-gradient(23.8% 20.3% at 29.2% 45.2%, rgba(190,196,206,0.91), rgba(190,196,206,0) 72%),radial-gradient(14.5% 12.0% at 31.1% 61.1%, rgba(190,196,206,0.63), rgba(190,196,206,0) 72%)"></i>
+</div>
+
+<div class="wrap">
+
+  <header class="portada">
+    <p class="kicker"><a href="../index.html">AntiNiebla</a> · Taller</p>
+    <h1>Una consigna<span>por día</span></h1>
+    <p class="bajada"><b>Cada día aparece una consigna nueva, la misma para todos.</b><br>
+    Escribís, subís tu texto con tu usuario de Instagram y queda acá, al lado del de los demás. Mañana hay otra, y la de hoy se queda en el calendario.</p>
+
+    <div class="sello">
+      <span id="chipHoy">Hoy</span>
+      <span>Pablo Cristín · @peblix</span>
+      <span>Gratis, sin registro</span>
+    </div>
+
+    <nav class="botonera" aria-label="Índice">
+      <a class="bot" href="#consigna" style="--c:#ff1f8e"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19.5 8.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M14.5 7.5l3 3"/></svg>Escribir</a>
+      <a class="bot" href="#textos" style="--c:#00e0ff"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5"/></svg>Leer</a>
+      <a class="bot" href="#calendario" style="--c:#c6ff00"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Días anteriores</a>
+    </nav>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LA CONSIGNA DEL DÍA ELEGIDO (hoy, salvo que vengas del calendario)
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="seccion" id="consigna" style="--fc:#ff1f8e">
+    <div class="secCabeza aparece"><h2 id="tituloSeccion">La de hoy</h2></div>
+
+    <article class="tarjeta aparece" id="tarjetaConsigna" style="--c:#ff1f8e" aria-live="polite">
+      <p class="cargando">Buscando la consigna…</p>
+    </article>
+
+    <!-- el formulario solo se muestra si la consigna elegida está abierta
+         (la de hoy). Lo esconde y lo muestra el JavaScript. -->
+    <article class="tarjeta aparece" id="tarjetaForm" style="--c:#c6ff00" hidden>
+      <h3>Subí lo tuyo</h3>
+      <form class="form" id="form" novalidate>
+        <label class="campoUsuario">
+          <span>@</span>
+          <input type="text" id="usuario" name="usuario" placeholder="tu usuario de instagram" maxlength="31"
+                 autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required
+                 aria-label="Tu usuario de Instagram">
+        </label>
+        <textarea id="texto" name="texto" placeholder="Acá va lo que escribiste. Los saltos de verso se respetan." required aria-label="Tu texto"></textarea>
+        <p class="contador" id="contador">0 / 3000</p>
+        <div class="trampaRobot" aria-hidden="true"><label>Sitio <input type="text" id="sitio" tabindex="-1" autocomplete="off"></label></div>
+        <button type="submit" class="btn acc" id="enviar" style="--c:#c6ff00">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="M6 11l6-6 6 6"/></svg>Subir mi texto
+        </button>
+        <p class="estado" id="estado" role="status"></p>
+      </form>
+      <div class="caja regla" style="--cc:#ffe500">
+        <b class="cabeza"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5"/><circle cx="12" cy="16.3" r="1.1" fill="currentColor" stroke="none"/></svg>Esto queda publicado</b>
+        <p>A diferencia de los juegos, acá lo que escribís <b>se guarda</b> y lo lee cualquiera que entre, con tu usuario al lado. Uno por persona por día. Si te arrepentís, escribime por Instagram a @peblix y lo bajo.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LO QUE ESCRIBIERON
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="seccion" id="textos" style="--fc:#00e0ff">
+    <div class="secCabeza aparece"><h2>Lo que escribieron</h2></div>
+    <p class="contadorTextos" id="contadorTextos"></p>
+    <div id="listaTextos"></div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       CALENDARIO
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="seccion" id="calendario" style="--fc:#c6ff00">
+    <div class="secCabeza aparece"><h2>Días anteriores</h2></div>
+    <p class="secIntro aparece">Cada día con consigna se puede abrir: ves lo que se pidió y lo que escribió la gente. <b>Lo que viene no se ve</b> hasta que llega su día.</p>
+
+    <div class="tarjeta cal aparece" style="--c:#c6ff00">
+      <div class="calCabeza">
+        <button type="button" class="calFlecha" id="mesAnterior" aria-label="Mes anterior">‹</button>
+        <p class="calMes" id="calMes">—</p>
+        <button type="button" class="calFlecha" id="mesSiguiente" aria-label="Mes siguiente">›</button>
+      </div>
+      <div class="calGrilla" id="calGrilla" role="grid"></div>
+      <p class="calNota">El número chico abajo de cada día es cuántos textos se subieron.</p>
+    </div>
+  </section>
+
+  <div id="libro"></div>
+
+  <div class="cierre">
+    <p>Una consigna no es una tarea: es una excusa para escribir lo que ibas a escribir igual, pero por otro lado. <b>Si hoy no te sale, mañana hay otra.</b></p>
+    <p><a href="../index.html">Volver a AntiNiebla</a> · <a href="https://instagram.com/peblix" target="_blank" rel="noopener">@peblix en Instagram</a></p>
+  </div>
+
+  <footer><a href="https://www.pablocristin.com.ar">PABLOCRISTIN.COM.AR</a></footer>
+</div>
+
+<!-- la ventana de compartir: una sola para toda la página, se llena con
+     el texto que se elija -->
+<div class="velo" id="velo" role="dialog" aria-modal="true" aria-labelledby="ventanaTitulo">
+  <div class="ventana" id="ventana" style="--c:#ff1f8e">
+    <button type="button" class="cerrar" id="cerrar" aria-label="Cerrar">×</button>
+    <h2 id="ventanaTitulo">Compartir</h2>
+    <img id="vistaPrevia" alt="Vista previa de la imagen para compartir">
+    <div class="acciones">
+      <button type="button" class="btn" id="btnCompartir" style="--c:#ff1f8e">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/></svg>Instagram o WhatsApp
+      </button>
+      <a class="btn" id="btnDescargar" style="--c:#00e0ff" download="consigna.png" href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5v10.5"/><path d="M8 10.5l4 4 4-4"/><path d="M4 15.5v5h16v-5"/></svg>Descargar la imagen
+      </a>
+      <a class="btn" id="btnWhatsapp" style="--c:#4dffc3" target="_blank" rel="noopener" href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/></svg>Mandar el texto por WhatsApp
+      </a>
+    </div>
+    <p class="fino" id="ventanaFino">En el celular, «Instagram o WhatsApp» abre el menú de compartir: elegís historia de Instagram o un chat. En la compu, descargá la imagen y subila desde el teléfono.</p>
+  </div>
+</div>
+
+<a class="alIndice" id="alIndice" href="#top" aria-label="Volver arriba" title="Volver arriba">↑</a>
+
+<script>
+(function(){
+'use strict';
+
+/* ============================================================
+   APARECER AL SCROLLEAR
+   Una sola vez por elemento y con un desplazamiento corto: el
+   movimiento acompaña la lectura, no pide atención.
+   ============================================================ */
+(function aparecer(){
+  var items=document.querySelectorAll('.aparece');
+  if(!('IntersectionObserver' in window) ||
+      matchMedia('(prefers-reduced-motion:reduce)').matches){
+    items.forEach(function(x){ x.classList.add('visible'); });
+    return;
+  }
+  var obs=new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, {rootMargin:'0px 0px -12% 0px', threshold:0.08});
+  items.forEach(function(x){ obs.observe(x); });
+})();
+
+/* ============================================================
+   VOLVER ARRIBA, CON LETRAS CAYENDO
+   ------------------------------------------------------------
+   Mismo mecanismo que las hojas de La Poda: una sola capa fija ya
+   promovida, y dos capas por letra — la de afuera baja, la de
+   adentro se mece. Con una sola la caída sale recta y parece un
+   ascensor. Las letras son las del nombre de la tarjeta, en su color.
+   ============================================================ */
+var cielo=(function(){
+  var d=document.createElement('div');
+  d.className='cieloLetras'; d.setAttribute('aria-hidden','true');
+  document.body.appendChild(d);
+  return d;
+})();
+
+function lluviaDeLetras(texto, color, cuantas){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  var letras=(texto||'').replace(/[^A-Za-zÁÉÍÓÚÜÑáéíóúüñ]/g,'').split('');
+  if(letras.length<3) letras='ANTINIEBLA'.split('');
+  /* una de cada cuatro en hueso: da profundidad sin ensuciar */
+  var tonos=[color,color,color,'#f4f4f0'];
+  var W=window.innerWidth, H=window.innerHeight;
+  for(var i=0;i<(cuantas||24);i++){
+    (function(k){
+      setTimeout(function(){
+        var tam=Math.round(20+Math.random()*74);
+        var d=document.createElement('div');
+        d.className='letraCae';
+        d.style.left=Math.round(Math.random()*Math.max(10,W-tam*1.3))+'px';
+        d.style.top=-(tam+40)+'px';
+        d.style.color=tonos[Math.floor(Math.random()*tonos.length)];
+        /* las grandes caen un poco más rápido, como en la vida */
+        var dur=(3.2+Math.random()*3.2)*(1-(tam-20)/240);
+        d.style.setProperty('--dur',  dur.toFixed(2)+'s');
+        d.style.setProperty('--durX', (0.85+Math.random()*1.3).toFixed(2)+'s');
+        d.style.setProperty('--dy',   (H+tam+90)+'px');
+        d.style.setProperty('--amp',  Math.round(12+Math.random()*48)+'px');
+        d.style.setProperty('--r1',   Math.round(-60-Math.random()*55)+'deg');
+        d.style.setProperty('--r2',   Math.round( 35+Math.random()*80)+'deg');
+        d.style.setProperty('--op',   (0.45+Math.random()*0.5).toFixed(2));
+        d.innerHTML='<span style="font-size:'+tam+'px">'+letras[Math.floor(Math.random()*letras.length)]+'</span>';
+        cielo.appendChild(d);
+        setTimeout(function(){ d.remove(); }, dur*1000+1000);
+      }, k*55+Math.random()*220);
+    })(i);
+  }
+}
+/* la lluvia arranca ANTES del scroll: el movimiento de subida y las
+   letras bajando se cruzan, y ahí está el efecto */
+function subir(texto, color, cuantas){
+  lluviaDeLetras(texto, color, cuantas);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+
+(function volver(){
+  var b=document.getElementById('alIndice'); if(!b) return;
+  b.addEventListener('click', function(e){ e.preventDefault(); subir('ANTINIEBLA','#ff1f8e',26); });
+  var ver=function(){ b.classList.toggle('verse', window.scrollY>700); };
+  window.addEventListener('scroll', ver, {passive:true}); ver();
+})();
+
+/* la trama del fondo se corre al azar, igual que en pablocristin.com.ar.
+   El vector es múltiplo del lado de la trama para que el loop no salte. */
+(function(){
+  var v=[[32.1,35.7],[-32.1,-35.7],[41.6,-37.5],[-41.6,37.5]];
+  var p=v[Math.floor(Math.random()*v.length)];
+  document.documentElement.style.setProperty('--dx',p[0].toFixed(2)+'px');
+  document.documentElement.style.setProperty('--dy',p[1].toFixed(2)+'px');
+})();
+
+/* ============================================================
+   CONFIGURACIÓN
+   ------------------------------------------------------------
+   API es el Worker. Si lo renombrás en Cloudflare, cambialo acá y en
+   admin.html. Para probar en tu compu con otro Worker, abrí la página
+   desde localhost con ?api=https://… — en el sitio publicado ese
+   parámetro se ignora.
+   ============================================================ */
+var API='https://actividades-taller.thepablix.workers.dev';
+if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)){
+  var a=new URLSearchParams(location.search).get('api'); if(a) API=a.replace(/\/+$/,'');
+}
+/* el primer mes con consignas: para no dejar ir para atrás hasta 1970 */
+var PRIMER_MES='2026-11';
+var MAX_TEXTO=3000;
+var DOMINIO='www.pablocristin.com.ar';
+var URL_PAGINA='https://www.pablocristin.com.ar/antiniebla/actividadesTaller/';
+
+/* cada texto toma un color de la paleta, rotando por su id: así un mismo
+   texto tiene siempre el mismo color, en la página y en su imagen */
+var PALETA=['#ff1f8e','#00e0ff','#c6ff00','#ffe500','#9b30ff','#4dffc3','#ffc300','#ff5ea8'];
+var colorDe=function(id){ return PALETA[(id||0)%PALETA.length]; };
+
+var $=function(id){ return document.getElementById(id); };
+var estado={ hoy:null, fecha:null, datos:null, mes:null, miId:null };
+
+/* ============================================================
+   FECHAS
+   Todo se maneja como texto 'AAAA-MM-DD' y se formatea a mediodía UTC:
+   así ningún huso horario corre el día para atrás. El "hoy" lo decide
+   siempre el Worker, nunca el reloj del celular.
+   ============================================================ */
+function aFecha(s){ return new Date(s+'T12:00:00Z'); }
+function fechaLarga(s){
+  return aFecha(s).toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'});
+}
+function fechaCorta(s){ var p=s.split('-'); return p[2]+'·'+p[1]+'·'+p[0]; }
+function nombreMes(m){
+  return aFecha(m+'-01').toLocaleDateString('es-AR',{month:'long',year:'numeric',timeZone:'UTC'});
+}
+function moverMes(m,d){
+  var f=aFecha(m+'-01'); f.setUTCMonth(f.getUTCMonth()+d); return f.toISOString().slice(0,7);
+}
+function horaDe(ms){
+  /* la hora en Argentina, que es la hora del taller */
+  return new Date(ms).toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',timeZone:'America/Argentina/Buenos_Aires'});
+}
+
+/* el texto de la gente entra siempre por textContent, nunca por
+   innerHTML: si alguien sube un <script> como poema, se ve como poema */
+function el(tag, clase, texto){
+  var e=document.createElement(tag);
+  if(clase) e.className=clase;
+  if(texto!=null) e.textContent=texto;
+  return e;
+}
+var ICONOS={
+  ig:'<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/>',
+  compartir:'<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/>',
+  regla:'<path d="M12 2.5l8 3.4v5.4c0 4.6-3.2 8.7-8 10.2-4.8-1.5-8-5.6-8-10.2V5.9l8-3.4z"/><path d="M8.6 12l2.3 2.3 4.5-4.6"/>',
+  pista:'<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.9V16h5v-.2c0-.8.4-1.5 1-1.9A6 6 0 0 0 12 3z"/>'
+};
+function svg(k){ return '<svg viewBox="0 0 24 24" aria-hidden="true">'+ICONOS[k]+'</svg>'; }
+
+/* no-store: sin esto el navegador guardaba /dia y /mes unos segundos, y
+   después de subir un texto la página te mostraba la versión de antes,
+   sin el tuyo. Los meses pasados igual se guardan, en cacheMes. */
+async function pedir(ruta, opciones){
+  var r=await fetch(API+ruta, Object.assign({cache:'no-store'}, opciones||{}));
+  var d={}; try{ d=await r.json(); }catch(e){}
+  if(!r.ok) throw new Error(d.error||'No se pudo conectar. Probá de nuevo.');
+  return d;
+}
+
+/* ============================================================
+   CARGAR UN DÍA
+   ============================================================ */
+async function cargarDia(fecha, desplazar){
+  $('tarjetaConsigna').innerHTML='<p class="cargando">Buscando la consigna…</p>';
+  try{
+    var d=await pedir('/dia'+(fecha?'?fecha='+fecha:''));
+  }catch(e){
+    $('tarjetaConsigna').innerHTML='';
+    $('tarjetaConsigna').appendChild(el('p','cargando','No pude traer la consigna. '+e.message));
+    return;
+  }
+  estado.hoy=d.hoy; estado.fecha=d.fecha; estado.datos=d;
+  $('chipHoy').textContent=fechaLarga(d.hoy);
+
+  /* la dirección de la página refleja el día que se está mirando, así
+     un link a un día anterior se puede pasar y abre ese día */
+  var u=new URL(location.href);
+  if(d.fecha===d.hoy) u.searchParams.delete('dia'); else u.searchParams.set('dia',d.fecha);
+  history.replaceState(null,'',u);
+
+  pintarConsigna(d);
+  pintarTextos(d);
+  if(!estado.mes) estado.mes=d.fecha.slice(0,7);
+  pintarCalendario();
+  if(desplazar) $('consigna').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
+}
+
+function pintarConsigna(d){
+  var t=$('tarjetaConsigna'), esHoy=d.fecha===d.hoy;
+  $('tituloSeccion').textContent=esHoy?'La de hoy':'La del '+
+    aFecha(d.fecha).toLocaleDateString('es-AR',{day:'numeric',month:'long',timeZone:'UTC'});
+  t.innerHTML='';
+  t.appendChild(el('p','fechaConsigna',fechaLarga(d.fecha)));
+
+  if(!d.consigna){
+    t.appendChild(el('h3',null,esHoy?'Hoy no hay consigna':'Ese día no hubo consigna'));
+    t.appendChild(el('p',null,esHoy
+      ? 'Se ve que hoy el taller descansa. En el calendario están las anteriores, por si querés escribir igual.'
+      : 'Elegí otro día en el calendario: los que tienen consigna están marcados.'));
+  }else{
+    var c=d.consigna;
+    if(c.titulo) t.appendChild(el('h3',null,c.titulo));
+    t.appendChild(el('p','textoConsigna',c.texto));
+    if(c.regla) t.appendChild(caja('regla','La regla','regla',c.regla));
+    if(c.pista) t.appendChild(caja('pista','La pista','pista',c.pista));
+  }
+  if(!esHoy){
+    var x=el('div','cerrada');
+    var p=el('span'); p.innerHTML='<b>Esta consigna ya cerró.</b> Se puede leer, no responder.';
+    var b=el('button','btn'); b.type='button'; b.style.setProperty('--c','#ff1f8e'); b.textContent='Ir a la de hoy';
+    b.onclick=function(){ estado.mes=null; cargarDia(null,true); };
+    x.appendChild(p); x.appendChild(b); t.appendChild(x);
+  }
+  $('tarjetaForm').hidden=!d.abierta;
+}
+function caja(clase,cabeza,icono,texto){
+  var c=el('div','caja '+clase);
+  var b=el('b','cabeza'); b.innerHTML=svg(icono); b.appendChild(document.createTextNode(cabeza));
+  c.appendChild(b); c.appendChild(el('p',null,texto));
+  return c;
+}
+
+function pintarTextos(d){
+  var lista=$('listaTextos'), r=d.respuestas||[];
+  lista.innerHTML='';
+  $('contadorTextos').textContent=d.consigna
+    ? (r.length===1?'1 texto':r.length+' textos')+' · '+fechaLarga(d.fecha)
+    : '';
+  if(!d.consigna){ return; }
+  if(!r.length){
+    lista.appendChild(el('p','vacio', d.abierta
+      ? 'Todavía nadie subió nada. El primero siempre es el más valiente, o el que menos durmió.'
+      : 'Ese día nadie subió nada.'));
+    return;
+  }
+  r.forEach(function(x){ lista.appendChild(tarjetaTexto(x)); });
+}
+
+function tarjetaTexto(x){
+  var c=colorDe(x.id);
+  var a=el('article','tarjeta respuesta'+(x.id===estado.miId?' mia':''));
+  a.style.setProperty('--c',c);
+  a.id='texto-'+x.id;
+  var au=el('a','autor');
+  au.href='https://instagram.com/'+encodeURIComponent(x.usuario);
+  au.target='_blank';
+  /* ugc + nofollow: es contenido de terceros, y no queremos que el
+     sitio le pase reputación a cualquier cuenta que se anote */
+  au.rel='noopener nofollow ugc';
+  au.innerHTML=svg('ig');
+  au.appendChild(document.createTextNode('@'+x.usuario));
+  a.appendChild(au);
+  a.appendChild(el('p','poema',x.texto));
+  var pie=el('div','pieRespuesta');
+  pie.appendChild(el('span','hora',horaDe(x.creada)));
+  var b=el('button','btn'); b.type='button';
+  b.innerHTML=svg('compartir'); b.appendChild(document.createTextNode('Compartir'));
+  b.onclick=function(){ abrirCompartir(x); };
+  pie.appendChild(b);
+  a.appendChild(pie);
+  return a;
+}
+
+/* ============================================================
+   CALENDARIO
+   ============================================================ */
+var cacheMes={};
+async function pintarCalendario(){
+  var m=estado.mes, hoyMes=estado.hoy.slice(0,7);
+  $('calMes').textContent=nombreMes(m);
+  $('mesAnterior').disabled = m<=PRIMER_MES;
+  $('mesSiguiente').disabled = m>=hoyMes;
+
+  var dias=cacheMes[m];
+  if(!dias){
+    try{ dias=(await pedir('/mes?mes='+m)).dias; }catch(e){ dias=[]; }
+    /* el mes en curso no se guarda: hoy puede sumar textos */
+    if(m!==hoyMes) cacheMes[m]=dias;
+  }
+  if(estado.mes!==m) return; /* se cambió de mes mientras cargaba */
+  var porFecha={}; dias.forEach(function(d){ porFecha[d.fecha]=d; });
+
+  var g=$('calGrilla'); g.innerHTML='';
+  ['lu','ma','mi','ju','vi','sá','do'].forEach(function(s){ g.appendChild(el('span','calSem',s)); });
+  /* la semana arranca el lunes, como en cualquier almanaque de acá */
+  var primero=aFecha(m+'-01'), hueco=(primero.getUTCDay()+6)%7;
+  for(var i=0;i<hueco;i++) g.appendChild(el('span','calDia'));
+  var largo=new Date(Date.UTC(primero.getUTCFullYear(),primero.getUTCMonth()+1,0)).getUTCDate();
+  for(var n=1;n<=largo;n++){
+    var f=m+'-'+String(n).padStart(2,'0'), d=porFecha[f], celda;
+    if(d){
+      celda=el('button','calDia');
+      celda.type='button';
+      celda.style.setProperty('--c','#c6ff00');
+      celda.appendChild(el('span',null,String(n)));
+      celda.appendChild(el('span','n',String(d.cantidad)));
+      celda.setAttribute('aria-label',fechaLarga(f)+(d.titulo?', '+d.titulo:'')+', '+d.cantidad+' textos');
+      celda.title=d.titulo||fechaLarga(f);
+      (function(f){ celda.onclick=function(){ cargarDia(f,true); }; })(f);
+    }else{
+      celda=el('span','calDia',String(n));
+    }
+    if(f===estado.hoy) celda.classList.add('hoy');
+    if(f===estado.fecha) celda.classList.add('elegido');
+    g.appendChild(celda);
+  }
+}
+$('mesAnterior').onclick=function(){ estado.mes=moverMes(estado.mes,-1); pintarCalendario(); };
+$('mesSiguiente').onclick=function(){ estado.mes=moverMes(estado.mes,1); pintarCalendario(); };
+
+/* ============================================================
+   SUBIR EL TEXTO
+   ============================================================ */
+(function formulario(){
+  var f=$('form'), u=$('usuario'), t=$('texto'), cont=$('contador'), est=$('estado'), btn=$('enviar');
+  /* el usuario se recuerda en este navegador para no escribirlo cada
+     día. Va con try porque en modo incógnito localStorage puede fallar */
+  try{ u.value=localStorage.getItem('taller-usuario')||''; }catch(e){}
+  u.addEventListener('input',function(){ u.value=u.value.replace(/^@+/,'').replace(/\s/g,''); });
+  var contar=function(){
+    cont.textContent=t.value.length+' / '+MAX_TEXTO;
+    cont.classList.toggle('pasado',t.value.length>MAX_TEXTO);
+  };
+  t.addEventListener('input',contar); contar();
+
+  f.addEventListener('submit',async function(e){
+    e.preventDefault();
+    est.className='estado'; est.textContent='';
+    var usuario=u.value.trim().replace(/^@+/,'').toLowerCase(), texto=t.value.trim();
+    if(!/^[a-z0-9._]{1,30}$/.test(usuario)){ est.className='estado mal'; est.textContent='Poné tu usuario de Instagram: letras, números, punto y guion bajo.'; u.focus(); return; }
+    if(texto.length<3){ est.className='estado mal'; est.textContent='Falta el texto.'; t.focus(); return; }
+    if(texto.length>MAX_TEXTO){ est.className='estado mal'; est.textContent='Te pasaste del tope de '+MAX_TEXTO+' caracteres.'; return; }
+    btn.disabled=true; est.textContent='Subiendo…';
+    try{
+      var r=await pedir('/responder',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({fecha:estado.fecha,usuario:usuario,texto:texto,sitio:$('sitio').value})});
+      try{ localStorage.setItem('taller-usuario',usuario); }catch(e){}
+      t.value=''; contar();
+      est.className='estado bien'; est.textContent='Listo, ya está arriba.';
+      estado.miId=r.id||null;
+      await cargarDia(estado.fecha,false);
+      var mio=r.id && document.getElementById('texto-'+r.id);
+      if(mio){
+        mio.scrollIntoView({behavior:'smooth',block:'center'});
+        /* justo después de subir es cuando más ganas hay de mostrarlo */
+        setTimeout(function(){ abrirCompartir({id:r.id,usuario:r.usuario,texto:r.texto}); },700);
+      }
+    }catch(err){
+      est.className='estado mal'; est.textContent=err.message;
+    }finally{ btn.disabled=false; }
+  });
+})();
+
+/* ============================================================
+   LA IMAGEN PARA COMPARTIR — 1080×1920, para historias
+   ------------------------------------------------------------
+   Mismo formato que la tarjeta de los juegos. Arriba la consigna,
+   chica: es el contexto. En el medio el texto, lo más grande que
+   entre. Abajo el usuario y el dominio, grande — es lo que hace que
+   alguien que ve la historia sepa de dónde salió, y es la única forma
+   en que esto trae gente nueva. No lo achiques.
+   ============================================================ */
+var W=1080, H=1920, MX=96;
+
+function envolver(ctx, texto, ancho){
+  /* respeta los saltos del poema; si un verso no entra, lo parte en
+     palabras, y si una palabra sola no entra (un link, un grito
+     larguísimo), la parte en letras */
+  var salida=[];
+  texto.split('\n').forEach(function(verso){
+    if(!verso.trim()){ salida.push(''); return; }
+    var renglon='';
+    verso.split(/(\s+)/).forEach(function(pal){
+      var prueba=renglon+pal;
+      if(ctx.measureText(prueba).width<=ancho){ renglon=prueba; return; }
+      if(renglon.trim()) salida.push(renglon.replace(/\s+$/,''));
+      renglon=pal.replace(/^\s+/,'');
+      while(ctx.measureText(renglon).width>ancho){
+        var k=renglon.length;
+        while(k>1 && ctx.measureText(renglon.slice(0,k)).width>ancho) k--;
+        salida.push(renglon.slice(0,k)); renglon=renglon.slice(k);
+      }
+    });
+    salida.push(renglon.replace(/\s+$/,''));
+  });
+  return salida;
+}
+function recortar(lineas, max){
+  if(lineas.length<=max) return lineas;
+  var r=lineas.slice(0,max); r[max-1]=r[max-1].replace(/\s*\S*$/,'')+' …'; return r;
+}
+
+async function dibujarTarjeta(x){
+  var c=colorDe(x.id), d=estado.datos, cons=d.consigna||{};
+  try{
+    await Promise.all([
+      document.fonts.load('800 64px "Bricolage Grotesque"'),
+      document.fonts.load('500 40px "Public Sans"'),
+      document.fonts.load('700 40px "Space Mono"')
+    ]);
+  }catch(e){}
+  var cv=document.createElement('canvas'); cv.width=W; cv.height=H;
+  var ctx=cv.getContext('2d');
+
+  /* fondo: el negro del sitio con la trama diagonal y el halo del color */
+  ctx.fillStyle='#0a0a0a'; ctx.fillRect(0,0,W,H);
+  ctx.save(); ctx.strokeStyle='#141414'; ctx.lineWidth=7;
+  for(var i=-H;i<W+H;i+=19){ ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i-H*0.9,H); ctx.stroke(); }
+  ctx.restore();
+  var halo=ctx.createRadialGradient(140,-80,0,140,-80,1100);
+  halo.addColorStop(0,hexA(c,.30)); halo.addColorStop(1,hexA(c,0));
+  ctx.fillStyle=halo; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=c; ctx.fillRect(0,0,W,12);
+
+  var y=128;
+  ctx.textBaseline='alphabetic';
+  /* rótulo */
+  ctx.fillStyle=c; ctx.font='700 30px "Space Mono", monospace';
+  espaciar(ctx,'.18em');
+  ctx.fillText('ANTINIEBLA · CONSIGNA DEL '+fechaCorta(d.fecha),MX,y);
+  espaciar(ctx,'0px');
+  y+=100;
+
+  /* la consigna, chica: es el contexto, no la protagonista */
+  if(cons.titulo){
+    ctx.fillStyle='#f4f4f0'; ctx.font='800 60px "Bricolage Grotesque", sans-serif';
+    espaciar(ctx,'-1px');
+    recortar(envolver(ctx,cons.titulo.toUpperCase(),W-MX*2),2).forEach(function(l){ ctx.fillText(l,MX,y); y+=58; });
+    espaciar(ctx,'0px');
+    y+=14;
+  }
+  ctx.fillStyle='#a8a8a2'; ctx.font='500 33px "Public Sans", sans-serif';
+  recortar(envolver(ctx,(cons.texto||'').replace(/\n+/g,' '),W-MX*2),cons.titulo?3:5)
+    .forEach(function(l){ ctx.fillText(l,MX,y); y+=46; });
+  y+=34;
+  ctx.fillStyle=c; ctx.fillRect(MX,y,120,5);
+  y+=86;
+
+  /* el texto: el tamaño más grande con el que entra entero. Si ni a 28
+     entra, se corta con puntos suspensivos y el pie avisa dónde leerlo. */
+  var techo=1500, alto=techo-y, tam, lineas, inter, entra=false;
+  for(tam=60;tam>=28;tam-=2){
+    ctx.font='500 '+tam+'px "Public Sans", sans-serif';
+    inter=Math.round(tam*1.42);
+    lineas=envolver(ctx,x.texto,W-MX*2);
+    if(lineas.length*inter<=alto){ entra=true; break; }
+  }
+  if(!entra){ tam=28; inter=40; ctx.font='500 28px "Public Sans", sans-serif'; lineas=recortar(envolver(ctx,x.texto,W-MX*2),Math.floor(alto/inter)); }
+  /* un haiku de tres renglones arriba de todo deja un hueco de media
+     pantalla antes del usuario. Centrado en su espacio, el poema queda
+     en el medio de la historia, que es donde va la mirada */
+  y+=Math.max(0,Math.round((alto-lineas.length*inter)/2));
+  ctx.fillStyle='#f4f4f0';
+  lineas.forEach(function(l){ y+=inter; ctx.fillText(l,MX,y-Math.round(inter*.28)); });
+
+  /* el usuario */
+  var yU=1618;
+  ctx.fillStyle=c; ctx.font='800 64px "Bricolage Grotesque", sans-serif';
+  espaciar(ctx,'-1px');
+  ctx.fillText('@'+x.usuario,MX,yU);
+  espaciar(ctx,'0px');
+
+  /* el pie, grande a propósito */
+  ctx.fillStyle='#2b2b30'; ctx.fillRect(MX,1680,W-MX*2,2);
+  ctx.fillStyle='#8d8d86'; ctx.font='600 30px "Public Sans", sans-serif';
+  ctx.fillText(entra?'Escribí la tuya en':'Leelo entero y escribí el tuyo en',MX,1752);
+  ctx.fillStyle='#f4f4f0'; ctx.font='700 46px "Space Mono", monospace';
+  ctx.fillText(DOMINIO.toUpperCase(),MX,1820);
+
+  return cv;
+}
+/* letterSpacing en canvas no existe en navegadores viejos: si no está,
+   se dibuja sin tracking y listo, no vale la pena simularlo */
+function espaciar(ctx,v){ if('letterSpacing' in ctx) ctx.letterSpacing=v; }
+function hexA(hex,a){
+  var n=parseInt(hex.slice(1),16);
+  return 'rgba('+(n>>16)+','+((n>>8)&255)+','+(n&255)+','+a+')';
+}
+
+/* ============================================================
+   LA VENTANA DE COMPARTIR
+   ------------------------------------------------------------
+   Desde una página web no se puede mandar una imagen directo a una
+   historia de Instagram: no hay forma, Instagram no la da. Lo que sí
+   hay es el menú de compartir del celular (navigator.share con un
+   archivo), y ahí aparecen Instagram y WhatsApp. En la compu ese menú
+   casi nunca acepta imágenes, así que queda descargar.
+   ============================================================ */
+var archivoActual=null, urlActual=null;
+async function abrirCompartir(x){
+  var v=$('velo'), c=colorDe(x.id);
+  $('ventana').style.setProperty('--c',c);
+  $('vistaPrevia').removeAttribute('src');
+  v.classList.add('abierto');
+  document.body.style.overflow='hidden';
+  $('cerrar').focus();
+
+  var cv=await dibujarTarjeta(x);
+  var blob=await new Promise(function(ok){ cv.toBlob(ok,'image/png'); });
+  if(urlActual) URL.revokeObjectURL(urlActual);
+  urlActual=URL.createObjectURL(blob);
+  var nombre='antiniebla-'+estado.fecha+'-'+x.usuario+'.png';
+  archivoActual=new File([blob],nombre,{type:'image/png'});
+  $('vistaPrevia').src=urlActual;
+  $('btnDescargar').href=urlActual;
+  $('btnDescargar').download=nombre;
+
+  var link=URL_PAGINA+(estado.fecha!==estado.hoy?'?dia='+estado.fecha:'');
+  var cons=(estado.datos.consigna&&estado.datos.consigna.titulo)||'la consigna del día';
+  $('btnWhatsapp').href='https://wa.me/?text='+encodeURIComponent(
+    '«'+cons+'» — @'+x.usuario+'\n\n'+x.texto+'\n\nEscribí la tuya en '+link);
+
+  var puede=!!(navigator.canShare && navigator.canShare({files:[archivoActual]}));
+  $('btnCompartir').hidden=!puede;
+  $('ventanaFino').textContent=puede
+    ? 'Se abre el menú de compartir del teléfono: elegís historia de Instagram o un chat de WhatsApp.'
+    : 'Este navegador no deja compartir imágenes directo. Descargala y subila desde el teléfono a tu historia.';
+}
+$('btnCompartir').onclick=async function(){
+  if(!archivoActual) return;
+  try{
+    await navigator.share({files:[archivoActual]});
+  }catch(e){ /* cancelar el menú también tira error: no hay nada que avisar */ }
+};
+function cerrarVentana(){
+  $('velo').classList.remove('abierto');
+  document.body.style.overflow='';
+}
+$('cerrar').onclick=cerrarVentana;
+$('velo').addEventListener('click',function(e){ if(e.target===this) cerrarVentana(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') cerrarVentana(); });
+
+/* ============================================================
+   ARRANQUE
+   ============================================================ */
+var diaPedido=new URLSearchParams(location.search).get('dia');
+cargarDia(/^\d{4}-\d{2}-\d{2}$/.test(diaPedido||'')?diaPedido:null,false);
+
+var SUSCRIBIR_URL="https://peblix-subscribe.thepablix.workers.dev";
+var IMG="../../imgs/";   /* desde antiniebla/actividadesTaller/ */
+
+var TAPAS_POEMARIOS=['Cuantico-Tapa.png','Frio-Tapa.png','GuisoEntropico-Tapa.png','CajaNegra.png'];
+
+var LIBROS=[
+  { id:'poemarios', color:'#c6ff00', tag:'Poesía libre',
+    titulo:'Cuatro poemarios gratis',
+    tapa:null,                       /* se sortea una de las cuatro */
+    alt:'Tapa de uno de los poemarios digitales de Pablo Cristín',
+    texto:'En PDF, gratis, como el sol.',
+    datos:'Cvántico <b>·</b> Frío <b>·</b> Guiso Entrópico <b>·</b> Caja Negra',
+    form:true, boton:'Mandámelos por mail', icono:'correo',
+    fino:'Un mail por semana. Te borrás cuando quieras.' },
+
+  { id:'carne', color:'#ff1f8e', tag:'Libro físico',
+    titulo:'Carne Prestada',
+    tapa:'portada-carne.jpg',
+    alt:'Tapa de Carne Prestada, poemario de Pablo Cristín',
+    texto:'Poesía que te obliga a mirar para adentro y a mantener fija la vista hasta que te piquen los ojos.',
+    datos:'Petricor Ediciones <b>·</b> 2025 <b>·</b> 96 páginas',
+    form:false, boton:'Conseguir el libro', icono:'libro',
+    url:'https://petricorediciones.empretienda.com.ar/fisico/carne-prestada-de-pablo-cristin',
+    fino:'Envíos a todo el país.' },
+
+  { id:'ofdpee', color:'#00e0ff', tag:'Ciencia ficción',
+    titulo:'Otras Formas de Perder el Equilibrio',
+    tapa:'portada-otras.jpg',
+    alt:'Tapa de Otras Formas de Perder el Equilibrio, cuentos de Pablo Cristín',
+    texto:'Cinco relatos que se cruzan entre sí. ¿Vale la pena tanto trabajo para que sigamos existiendo?',
+    datos:'Petricor Ediciones <b>·</b> 2024 <b>·</b> 230 páginas',
+    form:false, boton:'Conseguir el libro', icono:'libro',
+    url:'https://petricorediciones.empretienda.com.ar/fisico/otras-formas-de-perder-el-equilibrio-de-pablo-cristin',
+    fino:'También hay un capítulo gratis en pablocristin.com.ar' }
+];
+
+/* los dos íconos que usa esta tarjeta. Si la página ya tiene su objeto
+   ICONOS y su función svg(), borrá esto y usá los de la página. */
+var ICONOS_LIBRO={
+  correo:'<rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="M3 6l9 6.5L21 6"/>',
+  libro:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H19v15H6.5A2.5 2.5 0 0 0 4 20.5Z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H19v3H6.5"/>'
+};
+function svgLibro(k){
+  return '<svg viewBox="0 0 24 24" aria-hidden="true">'+(ICONOS_LIBRO[k]||'')+'</svg>';
+}
+
+(function tarjetaLibro(){
+  var cajas=document.querySelectorAll('#libro, .libroCaja');
+  if(!cajas.length) return;
+  var L=LIBROS[Math.floor(Math.random()*LIBROS.length)];
+  var tapa=L.tapa || TAPAS_POEMARIOS[Math.floor(Math.random()*TAPAS_POEMARIOS.length)];
+
+  cajas.forEach(function(caja,k){
+    caja.className='libro';
+    caja.style.setProperty('--lc', L.color);
+    caja.innerHTML=
+      '<img class="libroTapa" src="'+IMG+tapa+'" alt="'+L.alt+'" loading="lazy" decoding="async">'+
+      '<div class="libroCuerpo">'+
+        '<span class="libroTag">'+L.tag+'</span>'+
+        '<h2>'+L.titulo+'</h2>'+
+        '<p class="libroTxt">'+L.texto+'</p>'+
+        '<p class="libroDatos">'+L.datos+'</p>'+
+        (L.form
+          ? '<form class="libroForm" id="libroForm'+k+'">'+
+              '<input type="email" id="libroMail'+k+'" placeholder="tu@correo.com" required autocomplete="email" aria-label="Tu correo">'+
+              '<button type="submit" class="libroBtn">'+svgLibro(L.icono)+L.boton+'</button>'+
+            '</form>'
+          : '<a class="libroBtn" href="'+L.url+'" target="_blank" rel="noopener">'+svgLibro(L.icono)+L.boton+' →</a>')+
+        '<p class="libroFino">'+L.fino+'</p>'+
+      '</div>';
+
+    var f=document.getElementById('libroForm'+k);
+    if(f) f.onsubmit=async function(e){
+      e.preventDefault();
+      var email=document.getElementById('libroMail'+k).value;
+      try{
+        await fetch(SUSCRIBIR_URL,{method:'POST',headers:{'Content-Type':'application/json'},
+          /* poemario: de dónde vino el suscriptor. Poné el nombre de esta página. */
+          body:JSON.stringify({email:email, group:'poemarios', poemario:'actividades-taller'})});
+      }catch(err){}
+      /* si hay dos tarjetas en la página, las dos pasan a "listo":
+         es la misma persona y el mismo correo */
+      cajas.forEach(function(c){
+        c.querySelector('.libroCuerpo').innerHTML=
+          '<span class="libroTag">Listo</span>'+
+          '<h2>Mirá tu correo</h2>'+
+          '<p class="libroTxt">Los cuatro poemarios ya salieron para allá. Si no llegan en un rato, revisá el spam.</p>';
+      });
+    };
+  });
+})();
+
+})();
+</script>
+</body>
+</html>
